@@ -800,34 +800,183 @@ body{
 .rev.on { opacity: 1; transform: translateY(0); filter: blur(0); }
 
 /* ══════════════════════════════════════════════════════
-   ✦ SMALL PHONE RESPONSIVE FIX (≤ 360px)
-   Prevents text overlap at 320×533 and similar sizes.
-   Spacing values use vw in :root so they scale automatically —
-   this block only handles layout structure fixes.
+   ✦ RESPONSIVE SYSTEM — SMALL PHONES (≤ 360px)
+   Targets 320×568 (iPhone SE) and similar narrow screens.
+   Strategy:
+     1) Override CSS custom properties so all vw/clamp-based
+        sizes scale down proportionally.
+     2) Fix layout-structure issues (band height, wrapping).
+     3) Tighten spacing so no content overflows into the
+        next band or gets clipped by the page edges.
 ══════════════════════════════════════════════════════ */
 @media (max-width: 360px) {
-  /* Let band 1 grow instead of clipping at a fixed height */
+
+  /* ── 1. CSS VARIABLE OVERRIDES ───────────────────── */
+  :root {
+    /* Names — reduce clamp floor so they actually scale with vw */
+    --size-name-big: clamp(2.1rem, 9.5vw, 2.8rem);
+
+    /* "at their wedding celebration" text */
+    --size-celebration-text: clamp(1.65rem, 6.5vw, 2.2rem);
+
+    /* KEY FIX: cut the big gap above the date section.
+       Original: min(300px, 70vw) → 224px on 320px screen.
+       Fixed:    min(160px, 48vw) → 154px — keeps the image
+                 composition while preventing band overflow. */
+    --space-above-celebration: min(160px, 48vw);
+    --space-below-celebration: min(8px, 2.5vw);
+    --space-below-saturday:    min(5px, 1.4vw);
+    --space-below-may:         min(3px, 0.75vw);
+
+    /* Pull b1 content up slightly — padding-top is % of width */
+    --pos-b1-top: 42%;
+
+    /* Tighten inter-section gaps */
+    --pos-quote-top: 90%;
+    --pos-quote-bot: 18%;
+    --pos-b2-bot:    18%;
+    --pos-b3-bot:    18%;
+    --pos-b4-bot:    18%;
+    --pos-b5-top:    18%;
+    --pos-b5-bot:    18%;
+
+    /* Date stack — reduce floors */
+    --size-date-day:   clamp(0.95rem, 5.5vw, 1.2rem);
+    --size-date-line1: clamp(0.85rem, 5vw,   1.1rem);
+    --size-date-year:  clamp(0.62rem, 3vw,   0.85rem);
+
+    /* Venue cards */
+    --size-venue-time:  clamp(1.25rem, 5.5vw, 1.5rem);
+    --size-venue-event: clamp(1.2rem,  5.5vw, 1.5rem);
+    --size-venue-where: clamp(0.8rem,  3.5vw, 0.95rem);
+
+    /* RSVP & closing */
+    --size-waiting:       clamp(1.15rem, 5.5vw, 1.8rem);
+    --size-closing-names: clamp(1.35rem, 5.5vw, 1.8rem);
+    --size-closing-love:  clamp(0.72rem, 2.2vw, 1rem);
+
+    /* Buttons */
+    --btn-loc-font:  clamp(0.58rem, 2.6vw, 0.75rem);
+    --btn-loc-pad:   6px 14px;
+    --btn-rsvp-font: clamp(0.82rem, 3.8vw, 1.1rem);
+    --btn-rsvp-pad:  10px 32px;
+  }
+
+  /* ── 2. BAND-1 LAYOUT FIX ────────────────────────── */
+  /* Let the cover-text band grow with its content instead
+     of clipping at a hard percentage of the total page. */
   #b1 {
     height: auto;
     min-height: 18%;
   }
 
-  /* Allow parent names to wrap on very narrow screens */
-  .parent-name {
-    white-space: normal;
-    font-size: clamp(0.82rem, 4.2vw, 1rem);
-    text-align: center;
+  /* ── 3. PARENT NAMES ROW ─────────────────────────── */
+  /* Original: flex-wrap:nowrap + white-space:nowrap
+     → names bleed off-screen at 320px.
+     Fix: allow multi-line wrapping. */
+  .parents-wrapper {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    padding: 0 4%;
   }
 
-  /* Tighten the parents row on narrow screens */
-  .parents-wrapper {
-    gap: 8px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+  .parent-name {
+    white-space: normal;
+    font-size: clamp(0.78rem, 4vw, 1rem);
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* ── 4. INVITATION COPY ──────────────────────────── */
+  .request-text {
+    font-size: clamp(0.82rem, 3.4vw, 1rem);
+    line-height: 1.45;
+    margin-bottom: 8px;
+    padding: 0 4%;
+  }
+
+  /* ── 5. MAIN NAMES ───────────────────────────────── */
+  /* Prevent wide cursive letters from nudging outside
+     the page edge on 320px. */
+  .name-big {
+    padding: 0 3%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* ── 6. QUOTE BAND ───────────────────────────────── */
+  .quote-text {
+    font-size: clamp(0.98rem, 4.4vw, 1.25rem);
+    padding: 0 5%;
+    line-height: 1.55;
+  }
+
+  /* ── 7. VENUE CARDS ──────────────────────────────── */
+  .venue-pill {
+    width: 95%;
+    padding: clamp(5px, 1.5vw, 10px) 0;
+  }
+
+  /* Location buttons: allow two-column wrap if space is
+     tight but never let individual buttons overflow. */
+  .loc-btn {
+    white-space: nowrap;
+    padding: var(--btn-loc-pad);
+    font-size: var(--btn-loc-font);
+  }
+
+  /* ── 8. CLOSING SECTION ──────────────────────────── */
+  .closing-date {
+    font-size: clamp(0.42rem, 1.3vw, 0.5rem);
+    letter-spacing: 0.28em;
   }
 }
 
-/* SCROLLBAR */
+/* ══════════════════════════════════════════════════════
+   ✦ RESPONSIVE SYSTEM — ULTRA-NARROW (≤ 320px)
+   Extra safety net for the smallest iPhones (SE gen-1).
+   Applies on top of the 360px overrides above.
+══════════════════════════════════════════════════════ */
+@media (max-width: 320px) {
+  :root {
+    --size-name-big:           clamp(1.9rem, 9vw, 2.4rem);
+    --size-celebration-text:   clamp(1.5rem, 6vw, 1.9rem);
+    --space-above-celebration: min(130px, 42vw);
+    --pos-b1-top:              38%;
+    --size-date-day:           clamp(0.88rem, 5.2vw, 1.1rem);
+    --size-date-line1:         clamp(0.8rem,  4.8vw, 1rem);
+    --size-date-year:          clamp(0.58rem, 2.8vw, 0.8rem);
+    --size-venue-time:         clamp(1.1rem,  5vw,   1.4rem);
+    --size-venue-where:        clamp(0.75rem, 3.2vw, 0.9rem);
+    --size-waiting:            clamp(1.05rem, 5.2vw, 1.5rem);
+    --size-closing-names:      clamp(1.2rem,  5vw,   1.6rem);
+  }
+
+  .parents-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .parent-separator {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+  }
+
+  .request-text {
+    font-size: clamp(0.78rem, 3.2vw, 0.95rem);
+  }
+
+  .quote-text {
+    font-size: clamp(0.9rem, 4.2vw, 1.15rem);
+    padding: 0 6%;
+  }
+
+  .venue-pill {
+    width: 96%;
+  }
+}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--dgold);border-radius:3px;}
