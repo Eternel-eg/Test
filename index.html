@@ -9,59 +9,58 @@
 <style>
 /* ══════════════════════════════════════════════════════
    USER CONTROLS (EASY ADJUSTMENTS)
-   Change the values below to control spacing and sizes
 ══════════════════════════════════════════════════════ */
 :root {
   /* --- 1. UPPER NAMES CONTROL ("Teresa & Claudio") --- */
   --font-name-big: 'Sacramento', cursive;
   --color-name-big: var(--roseDark);
-  --size-name-big: clamp(2.8rem, 11vw, 3.2rem);
+  --size-name-big: clamp(2.5rem, 11vw, 3.2rem); /* Adjusted min limit slightly for small screens */
   --lh-name-big: 2.5;
-  --space-around-names: 15px; /* <-- TEXT POSITION CONTROLLER: Adjusts space above/below the golden separators */
+  --space-around-names: 15px; 
 
   /* --- 2. OTHER SPACING & SIZES FOR THE UPPER PART (BAND 1) --- */
-  --size-pre-text: clamp(0.7rem, 2vw, 0.6rem);
+  --size-pre-text: clamp(0.7rem, 2.5vw, 0.9rem); /* FIXED: Min is now smaller than Max */
   --lh-pre-text: 1.4;
   
   /* --- 2.5 BOTTOM INVITATION TEXT CONTROLLERS --- */
-  --size-celebration-text: clamp(2.2rem, 7vw, 2.8rem); /* <-- TEXT SIZE CONTROLLER: Adjusts size of "at their wedding celebration" */
-  --space-above-celebration: min(300px, 70vw); /* <-- TEXT POSITION CONTROLLER: Moves "at their wedding celebration" block down (vw-based so it scales with the image on all screen sizes) */
-  --space-below-celebration: min(15px, 3.5vw); /* <-- TEXT POSITION CONTROLLER: Space between "CELEBRATION" and "Saturday" */
-  --space-below-saturday: min(8px, 1.9vw);     /* <-- TEXT POSITION CONTROLLER: Space between "Saturday" and "16th of May" */
-  --space-below-may: min(4px, 0.93vw);          /* <-- TEXT POSITION CONTROLLER: Space between "16th of May" and "2026" */
+  --size-celebration-text: clamp(1.8rem, 7vw, 2.8rem); 
+  --space-above-celebration: min(300px, 70vw); 
+  --space-below-celebration: min(15px, 3.5vw); 
+  --space-below-saturday: min(8px, 1.9vw);     
+  --space-below-may: min(4px, 0.93vw);          
 
   /* INDEPENDENT DATE SIZES */
-  --size-date-day: clamp(1.2rem, 7vw, 1.4rem);   /* Controls "Saturday" */
-  --size-date-line1: clamp(1rem, 6vw, 1.7rem);   /* Controls "16th of May" */
-  --size-date-year: clamp(0.8rem, 3.5vw, 1rem);  /* Controls "2026" */
+  --size-date-day: clamp(1.1rem, 7vw, 1.4rem);   
+  --size-date-line1: clamp(1rem, 6vw, 1.7rem);   
+  --size-date-year: clamp(0.8rem, 3.5vw, 1rem);  
   
   --lh-date-line1: 1.2;
   --lh-date-year: 1.2;
 
   /* --- 3. FONT SIZES FOR THE LOWER PART --- */
-  --size-venue-time: clamp(1.6rem, 7vw, 1.4rem);
-  --size-venue-event: clamp(1.6rem, 7vw, 1.2rem);
-  --size-venue-where: clamp(0.95rem, 4vw, 1rem);
+  --size-venue-time: clamp(1.4rem, 6vw, 1.6rem); /* FIXED */
+  --size-venue-event: clamp(1.2rem, 5vw, 1.6rem); /* FIXED */
+  --size-venue-where: clamp(0.9rem, 4vw, 1rem);
   --size-waiting: clamp(1.5rem, 7vw, 2.4rem);
   --size-closing-names: clamp(1.8rem, 6.5vw, 2.6rem);
-  --size-closing-love: clamp(0.9rem, 1.2vw, 2rem);
+  --size-closing-love: clamp(0.9rem, 3vw, 1.2rem); /* FIXED */
 
-  /* --- 4. SECTION POSITION CONTROLLERS (Move text blocks up/down the background image) --- */
-  --pos-b1-top: 60%;       /* <-- TEXT POSITION CONTROLLER: Pushes the main top text ("Teresa & Claudio") further down the page */
-  --pos-quote-top: 140%;     /* <-- TEXT POSITION CONTROLLER: Controls spacing above the "Being deeply loved" quote */
-  --pos-quote-bot: 30%;    /* <-- TEXT POSITION CONTROLLER: Controls spacing below the quote */
-  --pos-b2-bot: 28%;       /* <-- TEXT POSITION CONTROLLER: Controls spacing below the Church section */
-  --pos-b3-bot: 28%;       /* <-- TEXT POSITION CONTROLLER: Controls spacing below the Reception section */
-  --pos-b4-bot: 28%;       /* <-- TEXT POSITION CONTROLLER: Controls spacing below the RSVP section */
-  --pos-b5-top: 30%;       /* <-- TEXT POSITION CONTROLLER: Pushes the Closing ("With all our love") further down */
-  --pos-b5-bot: 30%;       /* <-- TEXT POSITION CONTROLLER: Controls space at the absolute bottom of the page */
+  /* --- 4. SECTION POSITION CONTROLLERS --- */
+  --pos-b1-top: 60%;       
+  --pos-quote-top: 20%;     
+  --pos-quote-bot: 30%;    
+  --pos-b2-bot: 28%;       
+  --pos-b3-bot: 28%;       
+  --pos-b4-bot: 28%;       
+  --pos-b5-top: 50%;       
+  --pos-b5-bot: 55%;       
 
   /* --- 5. BUTTON SIZE CONTROLLERS --- */
-  --btn-loc-pad: 8px 18px;  /* <-- BUTTON SIZE CONTROLLER: Adjust Location buttons (1st value is Height, 2nd is Width) */
-  --btn-loc-font: clamp(0.65rem, 3vw, 0.9rem); /* <-- BUTTON SIZE CONTROLLER: Location text size */
+  --btn-loc-pad: 8px 18px;  
+  --btn-loc-font: clamp(0.65rem, 3vw, 0.9rem); 
   
-  --btn-rsvp-pad: 12px 40px; /* <-- BUTTON SIZE CONTROLLER: Adjust main RSVP button (Height, Width) */
-  --btn-rsvp-font: clamp(0.9rem, 4vw, 1.2rem); /* <-- BUTTON SIZE CONTROLLER: RSVP text size */
+  --btn-rsvp-pad: 12px 40px; 
+  --btn-rsvp-font: clamp(0.9rem, 4vw, 1.2rem); 
 
 
   /* ─────────────────────────────────────────
@@ -128,24 +127,10 @@ body{
   50%       { transform: translateY(-8px); }
 }
 
-/* Ring 1 — slides in from left */
-.ring-left {
-  animation: slideRingLeft 1.4s cubic-bezier(0.34, 1.20, 0.64, 1) 0.3s both;
-}
-/* Ring 2 — slides in from right */
-.ring-right {
-  animation: slideRingRight 1.4s cubic-bezier(0.34, 1.20, 0.64, 1) 0.3s both;
-}
-/* Diamond on ring 1 */
-.ring-diamond {
-  opacity: 0;
-  animation: diamondPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards;
-}
-/* Sparkle dots */
-.ring-sparkle {
-  opacity: 0;
-  animation: sparklePop 0.5s ease-out var(--sp-delay, 1.8s) forwards;
-}
+.ring-left { animation: slideRingLeft 1.4s cubic-bezier(0.34, 1.20, 0.64, 1) 0.3s both; }
+.ring-right { animation: slideRingRight 1.4s cubic-bezier(0.34, 1.20, 0.64, 1) 0.3s both; }
+.ring-diamond { opacity: 0; animation: diamondPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards; }
+.ring-sparkle { opacity: 0; animation: sparklePop 0.5s ease-out var(--sp-delay, 1.8s) forwards; }
 
 @keyframes slideRingLeft {
   from { transform: translateX(-38px); opacity: 0; }
@@ -172,7 +157,6 @@ body{
   object-fit: contain;
   margin-bottom: 6px;
   opacity: 0;
-  /* Adjusted delay from 1.5s to 0.8s so logo appears promptly */
   animation: logoRevealLoader 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
   filter: drop-shadow(0 0 15px rgba(179,146,86,0.25));
 }
@@ -184,12 +168,6 @@ body{
 @keyframes titleReveal {
   from { opacity: 0; transform: translateY(12px) scale(0.97); filter: blur(6px); }
   to   { opacity: 1; transform: translateY(0)   scale(1);    filter: blur(0); }
-}
-
-.loader-ampersand {
-  display: inline-block;
-  color: #8da5a3;
-  margin: 0 0.15em;
 }
 
 .loader-date {
@@ -236,32 +214,21 @@ body{
   100% { opacity: 0; transform: translateY(-110px) scale(0); }
 }
 
-#loader::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.04) 2px,
-    rgba(0,0,0,0.04) 4px
-  );
-  pointer-events: none;
-}
-
 /* ── PAGE WRAPPER ────────────────────────── */
 .page{
   width: min(100vw, 430px);
-  height: calc(min(100vw, 430px) * 7.2993);
+  /* REPLACED FIXED HEIGHT WITH AUTO TO PREVENT TEXT OVERFLOW */
+  height: auto;
+  min-height: 100vh;
   position: relative;
   background: var(--parch);
-  overflow: hidden;
+  overflow-x: hidden; /* Only hide horizontal overflow, let vertical breathe */
   display: flex;
   flex-direction: column;
   opacity: 0;
   transform: scale(0.99);
   transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1), transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: 20px; /* Safety padding at the absolute bottom */
 }
 .page.loaded {
   opacity: 1;
@@ -282,15 +249,19 @@ body{
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  object-fit: fill; 
+  /* CHANGED to cover so it scales gracefully with new auto-height */
+  object-fit: cover; 
   display: block;
 }
+/* Ensure decorations stick to their proper edges if container gets taller */
 .bg-main { 
   z-index: 1; 
+  object-position: center top; 
 }
 .decor-lower { 
   z-index: 2; 
   transform-origin: bottom center;
+  object-position: center bottom;
   opacity: 0;
   animation: 
     fadeInLower 2.5s ease 0.8s forwards,
@@ -299,6 +270,7 @@ body{
 .decor-upper { 
   z-index: 3; 
   transform-origin: top center;
+  object-position: center top;
   animation: floatUpper 10s ease-in-out infinite alternate;
 }
 
@@ -314,17 +286,6 @@ body{
   0%   { transform: translateY(0) scale(1); }
   100% { transform: translateY(-1.5%) scale(1.02); }
 }
-@keyframes logoReveal {
-  0%   { opacity: 0; transform: scale(0.88) translateY(-14px); filter: blur(8px) drop-shadow(0 0 0px rgba(179,146,86,0)); }
-  50%  { filter: blur(2px) drop-shadow(0 0 20px rgba(179,146,86,0.25)); }
-  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0) drop-shadow(0 0 12px rgba(179,146,86,0.2)); }
-}
-@keyframes logoBreath {
-  0%   { transform: scale(1);     filter: drop-shadow(0 0 6px rgba(179,146,86,0.15)) drop-shadow(0 0 0px rgba(255,255,255,0)); }
-  30%  { transform: scale(1.01);  filter: drop-shadow(0 0 14px rgba(179,146,86,0.4)) drop-shadow(0 0 8px rgba(255,255,255,0.18)); }
-  60%  { transform: scale(1.018); filter: drop-shadow(0 0 22px rgba(179,146,86,0.55)) drop-shadow(0 0 16px rgba(255,255,255,0.28)); }
-  100% { transform: scale(1);     filter: drop-shadow(0 0 6px rgba(179,146,86,0.15)) drop-shadow(0 0 0px rgba(255,255,255,0)); }
-}
 
 /* ── BANDS (SECTIONS) ───────────────────────────────── */
 .band{
@@ -339,7 +300,8 @@ body{
   z-index: 10; 
 }
 
-#b1{ height: 20%; justify-content: flex-start; padding-top: var(--pos-b1-top); }
+/* REMOVED rigid 'height: 20%' from b1 which caused overlaps */
+#b1{ height: auto; justify-content: flex-start; padding-top: var(--pos-b1-top); }
 #quote-band { padding: 2% 10%; margin-top: var(--pos-quote-top); margin-bottom: var(--pos-quote-bot); } 
 #b2{ padding: 2% 8%; margin-bottom: var(--pos-b2-bot); }
 #b3{ padding: 2% 10%; margin-bottom: var(--pos-b3-bot); }
@@ -347,12 +309,7 @@ body{
 #b5{ margin-top: var(--pos-b5-top); padding-bottom: var(--pos-b5-bot); }
 
 /* ── TEXT HELPERS ──────────────────────── */
-.on-light{ 
-  text-shadow: 0 1px 4px rgba(59,51,43,0.15), 0 2px 10px rgba(255,255,255,0.6); 
-}
-.on-dark{ 
-  text-shadow: 1px 2px 4px rgba(0,0,0,0.6); 
-}
+.on-light{ text-shadow: 0 1px 4px rgba(59,51,43,0.15), 0 2px 10px rgba(255,255,255,0.6); }
 
 /* ── DIVIDER ───────────────────────────── */
 .rule{
@@ -367,42 +324,27 @@ body{
   color:var(--dgold);
   padding:0 6px;
 }
-.rule-names {
-  margin: var(--space-around-names) auto; 
-}
-
-/* ── MICRO LABEL ───────────────────────── */
-.lbl{
-  font-family:'Cinzel',serif;
-  font-size:clamp(0.7rem,2vw,1rem);
-  color:var(--ink);
-  letter-spacing:0.4em; text-transform:uppercase;
-  margin-right: -0.4em; 
-  opacity:0.8;
-  white-space: nowrap;
-}
+.rule-names { margin: var(--space-around-names) auto; }
 
 /* ═══════════════════════════════════════
-   BAND 1 — INVITATION TEXT UPDATE
+   BAND 1 — INVITATION TEXT
 ═══════════════════════════════════════ */
 .parents-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;
-  gap: 15px;
-  margin-top: 38px;
-  margin-bottom: 18px;
+  flex-wrap: wrap; /* Allows safe stacking on SE/small screens */
+  gap: 8px 15px; 
   padding: 0 5%;
 }
 .parent-name {
-  font-family: 'EB Garamond', cursive; /* Elegant handwriting font */
-  font-size: clamp(1rem, 5.5vw, 1.2rem);
+  font-family: 'EB Garamond', cursive; 
+  font-size: clamp(0.95rem, 4.5vw, 1.2rem);
   color: var(--ink);
   line-height: 1.2;
   font-weight: 400;
   letter-spacing: 0.02em;
-  white-space: nowrap;
+  text-align: center;
 }
 .parent-separator {
   font-family: 'EB Garamond', cursive;
@@ -416,31 +358,35 @@ body{
   font-size: clamp(0.95rem, 3.8vw, 1.15rem);
   color: var(--ink);
   line-height: 1.5;
-  margin-bottom: 20px;
 }
-.pre-text{
-  font-family:'Cinzel',serif;
-  font-size: var(--size-pre-text);
-  line-height: var(--lh-pre-text);
-  color:var(--ink);
-  font-style:normal;
-  font-weight: 600;
-  letter-spacing:0.1em;
-  margin: 0; 
-  padding: 5px 0; 
+
+/* ✦ RESPONSIVE NAMES STACK */
+.names-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
-.name-big{
+.name-big {
   font-family: var(--font-name-big);
   font-size: var(--size-name-big);
   color: var(--color-name-big);
   text-align: center; 
+  line-height: 1.1;
+  /* Use math based on font-size to prevent overlaps when scaled down! */
+  margin-bottom: calc(var(--size-name-big) * -0.15); 
+}
+.name-ampersand {
+  font-family: 'EB Garamond', serif; 
+  font-size: clamp(1.6rem, 6vw, 2.5rem); 
+  line-height: 1.1; 
+  margin-bottom: calc(var(--size-name-big) * -0.15);
 }
 
-/* Bottom Text Spacing Wrapper */
 .celebration-text {
   font-family: 'Sacramento', cursive;
   font-size: var(--size-celebration-text);
-  color: var(--ink); /* Restored the color variable to match the theme */
+  color: var(--ink); 
   font-weight: 400;
   letter-spacing: 0;
   text-transform: none;
@@ -448,13 +394,7 @@ body{
   margin-bottom: var(--space-below-celebration);
 }
 
-/* Stacked Date Style */
-.date-stack {
-  margin-top: 0; /* Overridden by the new space variables above */
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-}
+.date-stack { display: flex; flex-direction: column; align-items: center; }
 .ds-day {
   font-family: 'Cinzel', serif;
   font-size: var(--size-date-day);
@@ -482,23 +422,15 @@ body{
 }
 
 /* ═══════════════════════════════════════
-   SECTION SEPARATOR — GROWING PLANT IMAGE
+   SECTION SEPARATOR
 ═══════════════════════════════════════ */
 .section-separator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  position: relative;
-  z-index: 10;
+  display: flex; justify-content: center; align-items: center;
+  width: 100%; padding: 0; position: relative; z-index: 10;
 }
 .separator-plant-img {
-  width: 52%;
-  max-width: 200px;
-  object-fit: contain;
-  transform-origin: bottom center;
-  opacity: 0;
+  width: 52%; max-width: 200px; object-fit: contain;
+  transform-origin: bottom center; opacity: 0;
 }
 .separator-plant-img.plant-revealed {
   animation: elegantPlantGrow 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards,
@@ -514,9 +446,10 @@ body{
   0%   { transform: rotate(-0.8deg) translateX(-1px); }
   100% { transform: rotate(0.8deg) translateX(1px); }
 }
+
 .quote-text{
   font-family:'EB Garamond',serif;
-  font-size:clamp(1.2rem, 5vw, 1.4rem);
+  font-size:clamp(1.1rem, 5vw, 1.4rem);
   color:var(--ink);
   font-style:italic;
   line-height:1.6;
@@ -524,116 +457,69 @@ body{
   padding: 0 4%;      
 }
 .quote-ref {
-  display: block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.65em;
-  margin-top: 15px;
-  font-style: normal;
-  letter-spacing: 0.1em;
-  color: var(--ink);
-  opacity: 0.85;
+  display: block; font-family: 'Cinzel', serif; font-size: 0.65em;
+  margin-top: 15px; font-style: normal; letter-spacing: 0.1em;
+  color: var(--ink); opacity: 0.85;
 }
 
 /* ═══════════════════════════════════════
    BANDS 2 & 3 — VENUE CARDS
 ═══════════════════════════════════════ */
 .venue-pill{
-  background: transparent;
-  border: none;
+  background: transparent; border: none;
   padding: clamp(6px,1.8vw,12px) 0; 
   width: 90%; max-width: 320px;
   position: relative;
 }
-
 .v-time, .v-event, .v-where {
   text-shadow: 0 1px 4px rgba(59,51,43,0.15), 0 2px 10px rgba(255,255,255,0.6); 
 }
 .v-time{
-  font-family:'Cinzel',serif;
-  font-size: var(--size-venue-time);
-  color:var(--ink);
-  font-weight:600;
-  line-height:1; 
-  margin-bottom:1px; 
+  font-family:'Cinzel',serif; font-size: var(--size-venue-time);
+  color:var(--ink); font-weight:600; line-height:1; margin-bottom:1px; 
 }
 .v-event{
-  font-family:'Sacramento',cursive;
-  font-size: var(--size-venue-event);
-  color:var(--roseDark);
-  margin-bottom:2px; 
-  line-height:1.1;
+  font-family:'Sacramento',cursive; font-size: var(--size-venue-event);
+  color:var(--roseDark); margin-bottom:2px; line-height:1.1;
 }
 .v-where{
-  font-family:'EB Garamond',serif;
-  font-size: var(--size-venue-where);
-  color:var(--ink);
-  font-style:italic;
-  line-height:1.7; 
-  margin-bottom:6px; 
+  font-family:'EB Garamond',serif; font-size: var(--size-venue-where);
+  color:var(--ink); font-style:italic; line-height:1.7; margin-bottom:6px; 
 }
-
 .loc-btns{
-  display:flex; flex-wrap:wrap; gap:5px; justify-content:center;
-  margin-top:5px;
+  display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:5px;
 }
 .loc-btn{
-  font-family:'Cinzel',serif;
-  font-size: var(--btn-loc-font);  
-  color:var(--ink);
-  display:inline-flex; align-items:center; gap:4px;
-  padding: var(--btn-loc-pad);     
-  background:rgba(255,255,255,0.25);
-  border:1px solid var(--dgold);
-  letter-spacing:0.2em; text-transform:uppercase;
-  text-decoration:none; cursor:pointer;
-  transition:all 0.25s;
-  white-space:nowrap;
+  font-family:'Cinzel',serif; font-size: var(--btn-loc-font);  
+  color:var(--ink); display:inline-flex; align-items:center; gap:4px;
+  padding: var(--btn-loc-pad); background:rgba(255,255,255,0.25);
+  border:1px solid var(--dgold); letter-spacing:0.2em; text-transform:uppercase;
+  text-decoration:none; cursor:pointer; transition:all 0.25s; white-space:nowrap;
 }
-.loc-btn:hover{
-  background:var(--dgold);
-  color:#fff;
-}
+.loc-btn:hover{ background:var(--dgold); color:#fff; }
 
 /* ═══════════════════════════════════════
    BAND 4 — RSVP TRIGGER BUTTON
 ═══════════════════════════════════════ */
 .waiting{
-  font-family:'Sacramento',cursive;
-  font-size: var(--size-waiting);
-  color:var(--ink);
-  line-height:1.2;
-  margin-bottom:6px; 
+  font-family:'Sacramento',cursive; font-size: var(--size-waiting);
+  color:var(--ink); line-height:1.2; margin-bottom:6px; 
 }
 .rsvp-trigger{
-  font-family: 'Cinzel', serif;
-  font-size: var(--btn-rsvp-font); 
-  color: var(--ink);
-  background: rgba(255,255,255,0.15);
-  border: 1px solid var(--dgold);
-  padding: var(--btn-rsvp-pad);    
-  letter-spacing: 0.3em;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
+  font-family: 'Cinzel', serif; font-size: var(--btn-rsvp-font); 
+  color: var(--ink); background: rgba(255,255,255,0.15);
+  border: 1px solid var(--dgold); padding: var(--btn-rsvp-pad);    
+  letter-spacing: 0.3em; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); text-transform: uppercase;
+  position: relative; overflow: hidden;
 }
 .rsvp-trigger::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  transform: translateX(-100%); transition: transform 0.6s ease;
 }
 .rsvp-trigger:hover::before { transform: translateX(100%); }
-.rsvp-trigger:hover {
-  background: var(--dgold);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(179,146,86,0.4);
-}
+.rsvp-trigger:hover { background: var(--dgold); color: #fff; box-shadow: 0 4px 20px rgba(179,146,86,0.4); }
 
 /* ═══════════════════════════════════════
    RSVP MODAL (POPUP)
@@ -642,62 +528,42 @@ body{
   position: fixed; top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.6); z-index: 200;
   display: none; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.3s ease;
-  backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(4px);
 }
 .modal-overlay.active { display: flex; opacity: 1; }
 .modal-content {
-  background: #fcf8f0;
-  width: 90%; max-width: 360px;
-  padding: 35px 25px;
-  border: 1px solid rgba(184,150,90,0.5);
-  position: relative;
+  background: #fcf8f0; width: 90%; max-width: 360px;
+  padding: clamp(20px, 6vw, 35px) clamp(15px, 5vw, 25px);
+  border: 1px solid rgba(184,150,90,0.5); position: relative;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   transform: translateY(20px); transition: transform 0.3s ease;
   max-height: 90%; overflow-y: auto;
 }
 .modal-overlay.active .modal-content { transform: translateY(0); }
 .modal-close {
-  color: var(--dgold);
-  font-size: 1.8rem;
-  font-family: sans-serif;
+  color: var(--dgold); font-size: 1.8rem; font-family: sans-serif;
   position: absolute; top: 15px; right: 15px;
-  background: none; border: none; cursor: pointer; line-height: 1;
-  font-weight: 300;
+  background: none; border: none; cursor: pointer; line-height: 1; font-weight: 300;
 }
 .m-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.4rem;
-  color: var(--ink);
-  letter-spacing: 0.3em; text-align: center;
-  margin-bottom: 5px;
+  font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--ink);
+  letter-spacing: 0.3em; text-align: center; margin-bottom: 5px;
 }
 .m-sub {
-  font-family: 'EB Garamond', serif;
-  font-size: 1rem;
-  color: var(--dgold);
-  font-style: italic;
-  text-align: center; margin-bottom: 25px;
+  font-family: 'EB Garamond', serif; font-size: 1rem; color: var(--dgold);
+  font-style: italic; text-align: center; margin-bottom: 25px;
 }
 .m-fg { margin-bottom: 20px; text-align: left; }
 .m-fg label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.55rem;
-  color: var(--dgold);
-  letter-spacing: 0.25em;
-  display: block; margin-bottom: 8px; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.55rem; color: var(--dgold);
+  letter-spacing: 0.25em; display: block; margin-bottom: 8px; text-transform: uppercase;
 }
 .m-fg input, .m-fg select, .m-fg textarea {
-  font-family: 'EB Garamond', serif;
-  font-size: 1rem;
-  color: var(--ink);
-  width: 100%; background: transparent;
-  border: none; border-bottom: 1px solid var(--dgold);
+  font-family: 'EB Garamond', serif; font-size: 1rem; color: var(--ink);
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--dgold);
   padding: 5px 0 8px 0; outline: none;
 }
-.m-fg input::placeholder, .m-fg textarea::placeholder {
-  color: #a09d94;
-}
+.m-fg input::placeholder, .m-fg textarea::placeholder { color: #a09d94; }
 .m-fg select {
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg fill="%23b39256" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right center;
@@ -705,15 +571,9 @@ body{
 }
 .m-fg textarea { resize: none; min-height: 30px; }
 .m-submit {
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem; 
-  color: #fff;
-  background: #b39256;
-  width: 100%; 
-  padding: 14px;      
-  margin-top: 10px;
-  border: none;
-  letter-spacing: 0.25em; text-transform: uppercase;
+  font-family: 'Cinzel', serif; font-size: 0.75rem; color: #fff;
+  background: #b39256; width: 100%; padding: 14px; margin-top: 10px;
+  border: none; letter-spacing: 0.25em; text-transform: uppercase;
   cursor: pointer; transition: opacity 0.3s;
 }
 .m-submit:hover { opacity: 0.8; }
@@ -722,26 +582,16 @@ body{
    BAND 5 — CLOSING
 ═══════════════════════════════════════ */
 .closing-love{
-  font-family:'EB Garamond',serif;
-  font-size: var(--size-closing-love);
-  color:var(--ink);
-  font-style:italic;
-  letter-spacing:0.2em;
-  margin-bottom:-6px; 
+  font-family:'EB Garamond',serif; font-size: var(--size-closing-love);
+  color:var(--ink); font-style:italic; letter-spacing:0.2em; margin-bottom:-6px; 
 }
 .closing-names{
-  font-family:'Sacramento',cursive;
-  font-size: var(--size-closing-names);
-  color:var(--roseDark);
-  line-height:0.9;
+  font-family:'Sacramento',cursive; font-size: var(--size-closing-names);
+  color:var(--roseDark); line-height:0.9;
 }
 .closing-date{
-  font-family:'Cinzel',serif;
-  font-size:clamp(0.5rem,1.4vw,0.52rem);
-  color:#000000;
-  letter-spacing:0.4em; opacity:1;
-  margin-top:8px;     
-  text-shadow:none;
+  font-family:'Cinzel',serif; font-size:clamp(0.5rem,1.4vw,0.52rem);
+  color:#000000; letter-spacing:0.4em; opacity:1; margin-top:8px; text-shadow:none;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -751,17 +601,14 @@ body{
   from { opacity: 0; transform: translateY(22px); filter: blur(4px); }
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
-
 @keyframes luxScaleIn {
   from { opacity: 0; transform: translateY(8px) scale(0.96); filter: blur(3px); letter-spacing: 0.12em; }
   to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); letter-spacing: inherit; }
 }
-
 @keyframes ruleExpand {
   from { width: 0; opacity: 0; }
   to   { width: 60%; opacity: 1; }
 }
-
 @keyframes shimmerSweep {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -776,207 +623,32 @@ body{
 
 .name-shimmer {
   background: linear-gradient(
-    90deg,
-    var(--roseDark) 0%,
-    var(--roseDark) 35%,
-    #a8c5c3 50%,
-    var(--roseDark) 65%,
-    var(--roseDark) 100%
+    90deg, var(--roseDark) 0%, var(--roseDark) 35%,
+    #a8c5c3 50%, var(--roseDark) 65%, var(--roseDark) 100%
   );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmerSweep 3.5s linear 2.5s infinite;
-  padding: 0.2em 0; /* Fixes clipping on tall cursive letters */
+  background-size: 200% auto; -webkit-background-clip: text;
+  background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shimmerSweep 3.5s linear 2.5s infinite; padding: 0.2em 0;
 }
 
 .rev {
-  opacity: 0;
-  transform: translateY(24px);
-  filter: blur(2px);
+  opacity: 0; transform: translateY(24px); filter: blur(2px);
   transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .rev.on { opacity: 1; transform: translateY(0); filter: blur(0); }
 
 /* ══════════════════════════════════════════════════════
-   ✦ RESPONSIVE SYSTEM — SMALL PHONES (≤ 360px)
-   Targets 320×568 (iPhone SE) and similar narrow screens.
-   Strategy:
-     1) Override CSS custom properties so all vw/clamp-based
-        sizes scale down proportionally.
-     2) Fix layout-structure issues (band height, wrapping).
-     3) Tighten spacing so no content overflows into the
-        next band or gets clipped by the page edges.
+   ✦ ADDITIONAL MEDIA QUERIES FOR ULTIMATE SAFETY
 ══════════════════════════════════════════════════════ */
 @media (max-width: 360px) {
-
-  /* ── 1. CSS VARIABLE OVERRIDES ───────────────────── */
-  :root {
-    /* Names — reduce clamp floor so they actually scale with vw */
-    --size-name-big: clamp(2.1rem, 9.5vw, 2.8rem);
-
-    /* "at their wedding celebration" text */
-    --size-celebration-text: clamp(1.65rem, 6.5vw, 2.2rem);
-
-    /* KEY FIX: cut the big gap above the date section.
-       Original: min(300px, 70vw) → 224px on 320px screen.
-       Fixed:    min(160px, 48vw) → 154px — keeps the image
-                 composition while preventing band overflow. */
-    --space-above-celebration: min(160px, 48vw);
-    --space-below-celebration: min(8px, 2.5vw);
-    --space-below-saturday:    min(5px, 1.4vw);
-    --space-below-may:         min(3px, 0.75vw);
-
-    /* Pull b1 content up slightly — padding-top is % of width */
-    --pos-b1-top: 42%;
-
-    /* Tighten inter-section gaps */
-    --pos-quote-top: 90%;
-    --pos-quote-bot: 18%;
-    --pos-b2-bot:    18%;
-    --pos-b3-bot:    18%;
-    --pos-b4-bot:    18%;
-    --pos-b5-top:    18%;
-    --pos-b5-bot:    18%;
-
-    /* Date stack — reduce floors */
-    --size-date-day:   clamp(0.95rem, 5.5vw, 1.2rem);
-    --size-date-line1: clamp(0.85rem, 5vw,   1.1rem);
-    --size-date-year:  clamp(0.62rem, 3vw,   0.85rem);
-
-    /* Venue cards */
-    --size-venue-time:  clamp(1.25rem, 5.5vw, 1.5rem);
-    --size-venue-event: clamp(1.2rem,  5.5vw, 1.5rem);
-    --size-venue-where: clamp(0.8rem,  3.5vw, 0.95rem);
-
-    /* RSVP & closing */
-    --size-waiting:       clamp(1.15rem, 5.5vw, 1.8rem);
-    --size-closing-names: clamp(1.35rem, 5.5vw, 1.8rem);
-    --size-closing-love:  clamp(0.72rem, 2.2vw, 1rem);
-
-    /* Buttons */
-    --btn-loc-font:  clamp(0.58rem, 2.6vw, 0.75rem);
-    --btn-loc-pad:   6px 14px;
-    --btn-rsvp-font: clamp(0.82rem, 3.8vw, 1.1rem);
-    --btn-rsvp-pad:  10px 32px;
-  }
-
-  /* ── 2. BAND-1 LAYOUT FIX ────────────────────────── */
-  /* Let the cover-text band grow with its content instead
-     of clipping at a hard percentage of the total page. */
-  #b1 {
-    height: auto;
-    min-height: 18%;
-  }
-
-  /* ── 3. PARENT NAMES ROW ─────────────────────────── */
-  /* Original: flex-wrap:nowrap + white-space:nowrap
-     → names bleed off-screen at 320px.
-     Fix: allow multi-line wrapping. */
-  .parents-wrapper {
-    flex-wrap: wrap;
-    gap: 6px 12px;
-    margin-top: 18px;
-    margin-bottom: 8px;
-    padding: 0 4%;
-  }
-
-  .parent-name {
-    white-space: normal;
-    font-size: clamp(0.78rem, 4vw, 1rem);
-    text-align: center;
-    line-height: 1.35;
-  }
-
-  /* ── 4. INVITATION COPY ──────────────────────────── */
-  .request-text {
-    font-size: clamp(0.82rem, 3.4vw, 1rem);
-    line-height: 1.45;
-    margin-bottom: 8px;
-    padding: 0 4%;
-  }
-
-  /* ── 5. MAIN NAMES ───────────────────────────────── */
-  /* Prevent wide cursive letters from nudging outside
-     the page edge on 320px. */
-  .name-big {
-    padding: 0 3%;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  /* ── 6. QUOTE BAND ───────────────────────────────── */
-  .quote-text {
-    font-size: clamp(0.98rem, 4.4vw, 1.25rem);
-    padding: 0 5%;
-    line-height: 1.55;
-  }
-
-  /* ── 7. VENUE CARDS ──────────────────────────────── */
-  .venue-pill {
-    width: 95%;
-    padding: clamp(5px, 1.5vw, 10px) 0;
-  }
-
-  /* Location buttons: allow two-column wrap if space is
-     tight but never let individual buttons overflow. */
-  .loc-btn {
-    white-space: nowrap;
-    padding: var(--btn-loc-pad);
-    font-size: var(--btn-loc-font);
-  }
-
-  /* ── 8. CLOSING SECTION ──────────────────────────── */
-  .closing-date {
-    font-size: clamp(0.42rem, 1.3vw, 0.5rem);
-    letter-spacing: 0.28em;
-  }
+  /* Extra safeguard for small screens */
+  .parent-name { font-size: clamp(0.9rem, 4.5vw, 1.1rem); }
+  .parents-wrapper { gap: 6px; margin-top: 25px; margin-bottom: 12px; }
+  .venue-pill { width: 95%; }
+  #quote-band { padding: 4% 6%; }
 }
 
-/* ══════════════════════════════════════════════════════
-   ✦ RESPONSIVE SYSTEM — ULTRA-NARROW (≤ 320px)
-   Extra safety net for the smallest iPhones (SE gen-1).
-   Applies on top of the 360px overrides above.
-══════════════════════════════════════════════════════ */
-@media (max-width: 320px) {
-  :root {
-    --size-name-big:           clamp(1.9rem, 9vw, 2.4rem);
-    --size-celebration-text:   clamp(1.5rem, 6vw, 1.9rem);
-    --space-above-celebration: min(130px, 42vw);
-    --pos-b1-top:              38%;
-    --size-date-day:           clamp(0.88rem, 5.2vw, 1.1rem);
-    --size-date-line1:         clamp(0.8rem,  4.8vw, 1rem);
-    --size-date-year:          clamp(0.58rem, 2.8vw, 0.8rem);
-    --size-venue-time:         clamp(1.1rem,  5vw,   1.4rem);
-    --size-venue-where:        clamp(0.75rem, 3.2vw, 0.9rem);
-    --size-waiting:            clamp(1.05rem, 5.2vw, 1.5rem);
-    --size-closing-names:      clamp(1.2rem,  5vw,   1.6rem);
-  }
-
-  .parents-wrapper {
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .parent-separator {
-    font-size: clamp(1.1rem, 4vw, 1.5rem);
-  }
-
-  .request-text {
-    font-size: clamp(0.78rem, 3.2vw, 0.95rem);
-  }
-
-  .quote-text {
-    font-size: clamp(0.9rem, 4.2vw, 1.15rem);
-    padding: 0 6%;
-  }
-
-  .venue-pill {
-    width: 96%;
-  }
-}
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--dgold);border-radius:3px;}
@@ -1004,38 +676,28 @@ body{
   <div class="loader-glow"></div>
   
   <div class="loader-rings-container">
-    <!-- Two interlocking marriage rings -->
     <svg width="110" height="72" viewBox="0 0 110 72" xmlns="http://www.w3.org/2000/svg">
-      <!-- Ring 1 (left) -->
       <g class="ring-left">
         <circle cx="38" cy="38" r="24" fill="none" stroke="url(#goldGrad1)" stroke-width="5"/>
-        <!-- Diamond on ring 1 -->
         <g class="ring-diamond" transform="translate(38,10)">
           <polygon points="0,-7 5,-1 0,5 -5,-1" fill="url(#goldGrad1)" opacity="0.9"/>
           <polygon points="0,-7 5,-1 0,0 -5,-1" fill="rgba(255,255,255,0.45)"/>
         </g>
       </g>
-      <!-- Ring 2 (right) -->
       <g class="ring-right">
         <circle cx="72" cy="38" r="24" fill="none" stroke="url(#goldGrad2)" stroke-width="5"/>
       </g>
-      <!-- Sparkle dots -->
       <circle class="ring-sparkle" cx="55" cy="10" r="2.5" fill="var(--dgold)" style="--sp-delay:1.9s"/>
       <circle class="ring-sparkle" cx="15" cy="22" r="1.8" fill="var(--dgold)" style="--sp-delay:2.1s"/>
       <circle class="ring-sparkle" cx="95" cy="22" r="1.8" fill="var(--dgold)" style="--sp-delay:2.0s"/>
       <circle class="ring-sparkle" cx="8"  cy="46" r="1.4" fill="var(--dgold)" style="--sp-delay:2.3s"/>
       <circle class="ring-sparkle" cx="102" cy="46" r="1.4" fill="var(--dgold)" style="--sp-delay:2.2s"/>
-      <!-- Gold gradients -->
       <defs>
         <linearGradient id="goldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%"   stop-color="#e8c97a"/>
-          <stop offset="50%"  stop-color="#b39256"/>
-          <stop offset="100%" stop-color="#d4a853"/>
+          <stop offset="0%" stop-color="#e8c97a"/><stop offset="50%" stop-color="#b39256"/><stop offset="100%" stop-color="#d4a853"/>
         </linearGradient>
         <linearGradient id="goldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%"   stop-color="#e8c97a"/>
-          <stop offset="50%"  stop-color="#b39256"/>
-          <stop offset="100%" stop-color="#d4a853"/>
+          <stop offset="0%" stop-color="#e8c97a"/><stop offset="50%" stop-color="#b39256"/><stop offset="100%" stop-color="#d4a853"/>
         </linearGradient>
       </defs>
     </svg>
@@ -1054,38 +716,35 @@ body{
     <img class="bg-main" src="https://drive.google.com/thumbnail?id=1SykB1lCWheP5x5z8gqWafg8XD7gR92M6&sz=w2000" alt="Main Background">
     <img class="decor-lower" src="https://drive.google.com/thumbnail?id=11vXJFNqIr-Xyxcf-lKoTU07g-CV_n0mA&sz=w2000" alt="Lower Floral Decoration">
     <img class="decor-upper" src="https://drive.google.com/thumbnail?id=19je_zVADZ1FWnGZ7ia_K8rXvJ7rhu8l-&sz=w2000" alt="Upper Floral Decoration">
-    
   </div>
 
   <div id="b1" class="band">
 
-    <!-- NEW INVITATION TYPOGRAPHY HIERARCHY -->
-    <div class="request-text on-light ani ani-pre" style="animation-delay: 0.9s; margin-top: 38px; margin-bottom: 6px;">
+    <!-- REPLACED strict pixel margins with dynamic `vw` limits -->
+    <div class="request-text on-light ani ani-pre" style="animation-delay: 0.9s; margin-top: min(38px, 9vw); margin-bottom: min(6px, 1.5vw);">
       Together with love,
     </div>
 
-    <div class="parents-wrapper on-light ani ani-pre" style="animation-delay: 1.2s; margin-top: 0;">
-      <div class="parent-name">Mr. and Mrs.</br> Clement Gargour</div>
+    <!-- WRAP-FRIENDLY PARENT NAMES -->
+    <div class="parents-wrapper on-light ani ani-pre" style="animation-delay: 1.2s;">
+      <div class="parent-name">Mr. and Mrs.<br> Clement Gargour</div>
       <div class="parent-separator">&amp;</div>
-      <div class="parent-name">Mr. and Mrs.</br>  Khalil Lakah</div>
+      <div class="parent-name">Mr. and Mrs.<br> Khalil Lakah</div>
     </div>
 
-    <div class="request-text on-light ani ani-pre" style="animation-delay: 1.6s;">
-            Warmly invite you to         
-            <br>
-      the wedding of
+    <div class="request-text on-light ani ani-pre" style="animation-delay: 1.6s; margin-bottom: min(15px, 4vw);">
+      Warmly invite you to<br>the wedding of
     </div>
 
-    <!-- MAIN NAMES STACKED HERE -->
-    <div class="ani ani-name" style="animation-delay: 2s; display: flex; flex-direction: column; align-items: center; gap: 0px;">
-      <div class="name-big name-shimmer on-light" style="line-height: 1.3; margin-bottom: -15px;">Claudio</div>
-      <div class="name-shimmer on-light" style="font-family: 'EB Garamond', serif; font-size: clamp(2rem, 6vw, 2.5rem); line-height: 1.3; margin-bottom: -15px;">&amp;</div>
-      <div class="name-big name-shimmer on-light" style="line-height: 1.3;">Teresa</div>
+    <!-- MAIN NAMES STACKED SAFELY -->
+    <div class="ani ani-name names-stack" style="animation-delay: 2s;">
+      <div class="name-big name-shimmer on-light">Claudio</div>
+      <div class="name-shimmer name-ampersand on-light">&amp;</div>
+      <div class="name-big name-shimmer on-light">Teresa</div>
     </div>
 
     <div class="rule rule-names ani ani-rule-bot" style="animation-delay: 2.2s;"></div>
 
-    <!-- Celebration and Date Elements now have their own spacing variables -->
     <p class="on-light ani ani-pre ds-day" style="animation-delay: 2.4s; font-size: var(--size-date-day); margin-bottom: var(--space-below-celebration); margin-top: var(--space-above-celebration);">
       On
     </p>
@@ -1099,7 +758,6 @@ body{
   </div>
   
   <div id="quote-band" class="band">
-    <!-- NEW QUOTE TEXT -->
     <div class="quote-text rev on-light">
       “This is the day that the Lord has made;<br>
       let us rejoice and be glad in it.”<br>
@@ -1115,9 +773,6 @@ body{
   </div>
   
   <div id="b2" class="band">
-
-
-
     <div class="venue-pill rev">
       <div class="v-time">3:00 PM</div>
       <div class="rule" style="width:80%;margin:3px auto;"></div>
@@ -1128,13 +783,9 @@ body{
         <a class="loc-btn" href="https://maps.app.goo.gl/9CaR8Z7SLo1oKhgZ7" target="_blank" rel="noopener">📍 Google Maps</a>
       </div>
     </div>
-
   </div>
   
   <div id="b3" class="band">
-
-    
-
     <div class="venue-pill rev">
       <div class="v-time">5:00 PM</div>
       <div class="rule" style="width:80%;margin:7px auto;"></div>
@@ -1145,37 +796,28 @@ body{
         <a class="loc-btn" href="https://maps.google.com/?q=JW+Marriott+Hotel+Cairo+Mirage+City" target="_blank" rel="noopener">📍 Google Maps</a>
       </div>
     </div>
-
   </div>
   
   <div id="b4" class="band">
-
-    <p class="waiting on-light rev"></br></br>We are waiting for you…</p>
-
+    <p class="waiting on-light rev"><br><br>We are waiting for you…</p>
     <div class="rev" style="margin-top: 15px;">
       <button class="rsvp-trigger" onclick="openRSVP()">R S V P</button>
     </div>
-
   </div>
   
   <div id="b5" class="band">
-
     <div class="rule" style="width:20%;margin:0 auto 8px;"></div>
-
     <div class="rev">
       <p class="closing-love on-light">With all our love,</p>
-      <div class="closing-names on-light"></br>Claudio & Teresa</div>
+      <div class="closing-names on-light"><br>Claudio & Teresa</div>
       <div class="rule" style="width:20%;margin:2px auto;"></div>
       <p class="closing-date">16 · MAY · 2026 · Cairo, Egypt</p>
     </div>
-
   </div>
 
 </div> <!-- END OF MAIN PAGE -->
 
-<!-- ═══════════════════════════════════════
-   RSVP MODAL (POPUP)
-═══════════════════════════════════════ -->
+<!-- RSVP MODAL -->
 <div id="rsvpModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeRSVP()">✕</button>
@@ -1334,9 +976,6 @@ function submitRSVPModal() {
   const n = document.getElementById('mName').value.trim();
   if (!n) { alert('Please enter your full name.'); return; }
 
-  // ══════════════════════════════════════════════════
-  // GOOGLE SHEETS INTEGRATION
-  // ══════════════════════════════════════════════════
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw4DNU6iuDVCfkcchmyJ7gOWsJsCHDsSfxWWoygrsTJX28Xm-0xq6SToOKKYwEBlpTCnw/exec';
 
   const formData = new URLSearchParams();
@@ -1351,7 +990,6 @@ function submitRSVPModal() {
   submitBtn.textContent = 'Sending…';
   submitBtn.disabled = true;
 
-  // Send to Google Sheets via Apps Script
   fetch(SHEET_URL, {
     method: 'POST',
     mode: 'no-cors',
@@ -1364,64 +1002,12 @@ function submitRSVPModal() {
     submitBtn.disabled = false;
   })
   .catch(() => {
-    // Fallback: show success anyway (no-cors won't throw on network errors in some browsers)
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('modalSuccess').style.display = 'block';
     submitBtn.textContent = 'SEND MY RESPONSE';
     submitBtn.disabled = false;
   });
 }
-
-/*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  📋 HOW TO CONNECT THIS RSVP TO GOOGLE SHEETS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-STEP 1 — Create your Google Sheet
-  • Go to sheets.google.com → create a new sheet
-  • Name the first row headers (Row 1):
-    Timestamp | Name | Attending | Guests | Events | Message
-
-STEP 2 — Open Apps Script
-  • In your Sheet: Extensions → Apps Script
-  • Delete all existing code and paste this NEW version:
-
-─────────────────────────────────────────────────────
-function doPost(e) {
-  try {
-    // Replace with your actual Google Sheet ID
-    // The ID is the long string of random letters and numbers in your Google Sheet URL
-    // e.g. https://docs.google.com/spreadsheets/d/THIS_IS_THE_ID/edit
-    var sheetId = 'YOUR_SPREADSHEET_ID_HERE';
-    var sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
-
-    sheet.appendRow([
-      e.parameter.timestamp,
-      e.parameter.name,
-      e.parameter.attending,
-      e.parameter.guests,
-      e.parameter.events,
-      e.parameter.message
-    ]);
-    return ContentService.createTextOutput("Success");
-  } catch(err) {
-    return ContentService.createTextOutput("Error: " + err.toString());
-  }
-}
-─────────────────────────────────────────────────────
-
-STEP 3 — Deploy as a Web App (CRITICAL STEP)
-  • Click "Deploy" → "New deployment" 
-  • (If you are updating, you MUST go to Manage Deployments → Edit → Version: "New")
-  • Type: Web App
-  • Execute as: Me
-  • Who has access: Anyone
-  • Click "Deploy" → copy the Web App URL
-
-STEP 4 — Paste the URL into this file
-  • Replace the SHEET_URL variable above with your Web App URL
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-*/
 
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -1441,7 +1027,6 @@ document.querySelectorAll('.rev').forEach((el, idx) => {
   io.observe(el);
 });
 
-// Separator plant image — trigger on scroll
 const plantObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
