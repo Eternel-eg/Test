@@ -136,7 +136,7 @@
 
         .invitation-content {
             position: absolute;
-            top: 37%; /* TO MOVE UPWARD: Change this value to something like 35% or 40% */
+            top: 50%; /* TO MOVE UPWARD: Change this value to something like 35% or 40% */
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
@@ -312,6 +312,11 @@
     <!-- Flower Rain Layer (Global, stays above both pages) -->
     <div id="rain-container"></div>
 
+    <!-- Background Music (place MP3 file in the same folder as this HTML) -->
+    <audio id="bg-music" loop>
+        <source src="Relaxing_Elegant___Romantic_Wedding_Instrumental_Music_Emotional_Wedding_Day_Background_Music_2__rgQEvk77hX4___mp3cut_net_.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         // 1. Navigation Logic to switch between pages
         document.getElementById('goToPage2').addEventListener('click', () => {
@@ -325,7 +330,6 @@
         });
 
         // 2. Handle Sequential Item Appearances immediately
-        // Changed this to run right away so it doesn't wait for heavy images to finish loading
         const items = document.querySelectorAll('.item-wrapper');
         items.forEach((item, index) => {
             setTimeout(() => {
@@ -342,13 +346,11 @@
             flower.src = rainImageUrl;
             flower.classList.add('flower');
 
-            // Randomize visual properties
             const size = Math.random() * 25 + 15;
             const leftPos = Math.random() * 100;
             const duration = Math.random() * 5 + 6;
             const delay = Math.random() * 2;
             
-            // Randomize movement path
             const rotateDir = Math.random() > 0.5 ? 1 : -1;
             const targetRotation = rotateDir * (360 + Math.random() * 360);
             const driftAmount = (Math.random() - 0.5) * 150;
@@ -370,13 +372,24 @@
             }, (duration + delay) * 1000);
         }
 
-        // Spawn flowers regularly
         setInterval(spawnFlower, 300);
 
-        // Pre-fill initial flowers so it's not empty at first
         for(let i=0; i<8; i++) {
             setTimeout(spawnFlower, i * 100);
         }
+
+        // 4. Background Music — starts on first user interaction
+        const music = document.getElementById('bg-music');
+        music.volume = 0.5;
+
+        function startMusic() {
+            music.play().catch(() => {});
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+        }
+
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
     </script>
 </body>
 </html>
