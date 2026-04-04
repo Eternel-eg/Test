@@ -2,35 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Enchanting Animated Scene</title>
     
-    <!-- Beautiful elegant fonts for the wedding text -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
-        /* Base reset and layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
-            background-color: #111; /* Fallback color */
+            background-color: #0a0a0a;
             font-family: sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Shared background styles */
+        /* ── BACKGROUNDS ── */
         .background {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             background-size: cover;
             background-position: center;
             z-index: 1;
-            /* Subtle breathing animation for the backgrounds */
             animation: bg-breathe 20s ease-in-out infinite alternate;
         }
 
@@ -43,20 +45,19 @@
         }
 
         @keyframes bg-breathe {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            0%   { transform: scale(1); }
+            100% { transform: scale(1.06); }
         }
 
-        /* --- PAGES SETUP --- */
+        /* ── PAGES ── */
         .page {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 1s ease-in-out, visibility 1s;
+            transition: opacity 1.2s ease-in-out, visibility 1.2s;
             z-index: 1;
         }
 
@@ -66,87 +67,69 @@
             z-index: 2;
         }
 
-        /* Foreground Items Container for Page 1 */
+        /* ── PAGE 1 SCENE ── */
         .scene-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 5;
-            pointer-events: none; /* Let clicks pass through */
+            pointer-events: none;
             display: grid;
-            place-items: center; /* Centers all grid items */
+            place-items: center;
         }
 
-        /* Wrapper controls the sequential appear animation */
         .item-wrapper {
-            grid-area: 1 / 1; /* Stacks all items in the exact same spot */
+            grid-area: 1 / 1;
             opacity: 0;
             transform: scale(0.8) translateY(30px);
             display: flex;
             justify-content: center;
             align-items: center;
-            width: clamp(200px, 40vw, 500px); /* Uniform size for perfect overlapping */
+            width: clamp(160px, 55vw, 480px);
         }
 
-        /* The class added via JS to trigger appearance */
         .item-wrapper.show {
             animation: appear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* Inner image controls the continuous float animation */
         .item-wrapper img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0px 15px 15px rgba(0,0,0,0.3));
+            filter: drop-shadow(0px 12px 18px rgba(0,0,0,0.35));
             animation: float 4s ease-in-out infinite alternate;
         }
 
-        /* Appearance Animation */
         @keyframes appear {
-            0% { 
-                opacity: 0; 
-                transform: scale(0.7) translateY(50px); 
-            }
-            100% { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
-            }
+            0%   { opacity: 0; transform: scale(0.7) translateY(50px); }
+            100% { opacity: 1; transform: scale(1)   translateY(0);    }
         }
 
-        /* Floating Animation */
         @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(1deg); }
-            100% { transform: translateY(0px) rotate(-1deg); }
+            0%   { transform: translateY(0px)  rotate(0deg);  }
+            50%  { transform: translateY(-18px) rotate(1deg);  }
+            100% { transform: translateY(0px)  rotate(-1deg); }
         }
 
-        /* --- PAGE 2 INVITATION STYLES --- */
+        /* ── PAGE 2 INVITATION ── */
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Soft darkening layer */
+            inset: 0;
+            background: rgba(0, 0, 0, 0.42);
             z-index: 2;
         }
 
         .invitation-content {
             position: absolute;
-            top: 50%; /* TO MOVE UPWARD: Change this value to something like 35% or 40% */
+            top: 38%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -42%);
             z-index: 10;
             text-align: center;
-            width: 90%;
+            width: 92%;
             max-width: 600px;
-            /* Entrance animation for text */
             opacity: 0;
-            transform: translate(-50%, -40%);
             transition: all 1.5s ease 0.5s;
+            padding: 0 12px;
         }
 
         .page.active .invitation-content {
@@ -156,88 +139,203 @@
 
         .small-text {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            font-size: clamp(0.95rem, 3.8vw, 1.5rem);
             letter-spacing: 2px;
-            margin: 20px 0;
-            line-height: 1.6;
-            color: #E6C27A; /* Solid elegant gold */
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
-            /* Soft glowing pulse */
+            margin: clamp(12px, 3vw, 22px) 0;
+            line-height: 1.7;
+            color: #E6C27A;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.7);
             animation: text-pulse 4s ease-in-out infinite alternate;
         }
 
         @keyframes text-pulse {
-            0% { opacity: 0.85; text-shadow: 0px 2px 4px rgba(0,0,0,0.6); }
-            100% { opacity: 1; text-shadow: 0px 2px 12px rgba(230,194,122,0.4); }
+            0%   { opacity: 0.85; text-shadow: 0px 2px 4px  rgba(0,0,0,0.7); }
+            100% { opacity: 1;    text-shadow: 0px 2px 14px rgba(230,194,122,0.5); }
         }
 
         .names {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(4rem, 10vw, 7rem);
-            margin: 10px 0;
+            font-size: clamp(3.2rem, 13vw, 7rem);
+            margin: clamp(4px, 1.5vw, 12px) 0;
             font-weight: normal;
-            
-            /* Gold Gradient with continuous Shimmer */
+            line-height: 1.1;
             background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #BF953F);
             background-size: 200% auto;
-            color: #D4AF37; /* Fallback for browsers that don't support clip */
+            color: #D4AF37;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            
             animation: gold-shimmer 5s infinite linear;
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
         }
 
         @keyframes gold-shimmer {
-            to {
-                background-position: 200% center;
-            }
+            to { background-position: 200% center; }
         }
 
         .names .ampersand {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(2rem, 7vw, 4rem);
             display: block;
-            margin: -5px 0;
-            -webkit-text-fill-color: #FFF2CD; /* Slightly brighter for contrast */
+            margin: -4px 0;
+            -webkit-text-fill-color: #FFF2CD;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        /* --- NAVIGATION BUTTONS --- */
-        .nav-btn {
+        /* ── VIEW INVITATION BUTTON — Gold Elegant ── */
+        .nav-btn-primary {
             position: absolute;
-            bottom: 6%;
+            bottom: clamp(20px, 7vh, 55px);
             left: 50%;
             transform: translateX(-50%);
             z-index: 20;
-            padding: 12px 35px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
+            padding: clamp(13px, 2.5vh, 17px) clamp(32px, 8vw, 56px);
+            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #D4AF37 60%, #BF953F 100%);
+            background-size: 200% auto;
+            border: none;
+            color: #3a2600;
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            border-radius: 30px;
+            font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+            font-weight: 600;
+            letter-spacing: clamp(2px, 1vw, 4px);
+            border-radius: 50px;
             cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            white-space: nowrap;
+            animation: btn-shimmer 3s infinite linear;
+            box-shadow:
+                0 0 0 1px rgba(212,175,55,0.6),
+                0 0 18px rgba(212,175,55,0.4),
+                0 6px 24px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-50%) scale(1.05);
-        }
-
-        /* --- RAIN PARTICLES --- */
-        #rain-container {
+        .nav-btn-primary::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
+            inset: -3px;
+            border-radius: 54px;
+            background: linear-gradient(135deg, #FCF6BA, #BF953F, #FCF6BA);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(7px);
+        }
+
+        @keyframes btn-shimmer {
+            0%   { background-position: 0%   center; }
+            100% { background-position: 200% center; }
+        }
+
+        .nav-btn-primary:hover,
+        .nav-btn-primary:active {
+            transform: translateX(-50%) scale(1.06);
+            box-shadow:
+                0 0 0 1px rgba(252,246,186,0.8),
+                0 0 30px rgba(212,175,55,0.65),
+                0 8px 30px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        /* ── BACK BUTTON ── */
+        .nav-btn-back {
+            position: absolute;
+            bottom: clamp(20px, 7vh, 55px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            padding: clamp(11px, 2.2vh, 15px) clamp(28px, 7vw, 48px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(212,175,55,0.45);
+            color: #E6C27A;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+            letter-spacing: 3px;
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn-back:hover,
+        .nav-btn-back:active {
+            background: rgba(212,175,55,0.18);
+            border-color: rgba(212,175,55,0.8);
+            transform: translateX(-50%) scale(1.04);
+        }
+
+        /* ── MUSIC BUTTON ── */
+        #music-btn {
+            position: fixed;
+            top: clamp(14px, 3.5vh, 24px);
+            right: clamp(14px, 4vw, 24px);
+            z-index: 200;
+            width: clamp(46px, 13vw, 56px);
+            height: clamp(46px, 13vw, 56px);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #9a7b1e, #D4AF37 35%, #FCF6BA 55%, #BF953F 80%, #7a5c10);
+            background-size: 200% 200%;
+            animation: music-btn-shine 3s ease infinite alternate;
+            box-shadow:
+                0 0 0 1px rgba(252,246,186,0.45),
+                0 0 18px rgba(212,175,55,0.6),
+                0 4px 16px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        #music-btn:hover,
+        #music-btn:active {
+            transform: scale(1.1);
+            box-shadow:
+                0 0 0 1px rgba(252,246,186,0.8),
+                0 0 28px rgba(212,175,55,0.85),
+                0 6px 20px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        @keyframes music-btn-shine {
+            0%   { background-position: 0% 0%;     }
+            100% { background-position: 100% 100%; }
+        }
+
+        #music-btn svg {
+            width: clamp(20px, 5.5vw, 24px);
+            height: clamp(20px, 5.5vw, 24px);
+            fill: #2a1a00;
+            flex-shrink: 0;
+        }
+
+        /* Ripple when playing */
+        #music-btn.playing::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid rgba(212,175,55,0.55);
+            animation: ripple-pulse 1.8s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-pulse {
+            0%   { transform: scale(1);    opacity: 0.9; }
+            100% { transform: scale(1.6);  opacity: 0;   }
+        }
+
+        /* ── FLOWER RAIN ── */
+        #rain-container {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
             pointer-events: none;
         }
 
@@ -250,75 +348,85 @@
         }
 
         @keyframes fall {
-            0% {
-                top: -10%;
-                opacity: 0;
-                transform: rotate(0deg) translateX(0px);
+            0%  { top: -10%; opacity: 0;   transform: rotate(0deg) translateX(0px); }
+            10% { opacity: 0.75; }
+            80% { opacity: 0.75; }
+            100%{ top: 110%; opacity: 0;   transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px)); }
+        }
+
+        /* ── SAFE AREA (iPhone notch etc.) ── */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .nav-btn-primary,
+            .nav-btn-back {
+                bottom: max(clamp(20px, 7vh, 55px), calc(env(safe-area-inset-bottom) + 14px));
             }
-            10% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% {
-                top: 110%;
-                opacity: 0;
-                transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px));
+            #music-btn {
+                top: max(clamp(14px, 3.5vh, 24px), calc(env(safe-area-inset-top) + 10px));
+                right: max(clamp(14px, 4vw, 24px), calc(env(safe-area-inset-right) + 10px));
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- PAGE 1 (Original Scene) -->
+    <!-- PAGE 1 -->
     <div id="page1" class="page active">
         <div class="background"></div>
 
-        <!-- Foreground Animated Layered Items -->
         <div class="scene-container">
             <div class="item-wrapper" id="item1">
-                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s800" alt="Scene Item 1" style="animation-delay: 0s;">
+                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s800" alt="Scene Item 1" style="animation-delay:0s;">
             </div>
-            
             <div class="item-wrapper" id="item2">
-                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s800" alt="Scene Item 2" style="animation-delay: -1.5s;">
+                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s800" alt="Scene Item 2" style="animation-delay:-1.5s;">
             </div>
-            
             <div class="item-wrapper" id="item3">
-                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s800" alt="Scene Item 3" style="animation-delay: -3s;">
+                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s800" alt="Scene Item 3" style="animation-delay:-3s;">
             </div>
-
             <div class="item-wrapper" id="item4">
-                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s800" alt="Scene Item 4" style="animation-delay: -4.5s;">
+                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s800" alt="Scene Item 4" style="animation-delay:-4.5s;">
             </div>
         </div>
-        
-        <!-- Button to transition to Page 2 -->
-        <button id="goToPage2" class="nav-btn">View Invitation</button>
+
+        <button id="goToPage2" class="nav-btn-primary">View Invitation</button>
     </div>
 
-    <!-- PAGE 2 (Invitation Text) -->
+    <!-- PAGE 2 -->
     <div id="page2" class="page">
         <div class="background"></div>
         <div class="overlay"></div>
-        
+
         <div class="invitation-content">
             <p class="small-text">Together with their families</p>
             <h1 class="names">Tahany <span class="ampersand">&</span> Ahmed</h1>
             <p class="small-text">Invite you to join them<br>for their wedding day</p>
         </div>
 
-        <!-- Button to go back to Page 1 -->
-        <button id="goToPage1" class="nav-btn">Back</button>
+        <button id="goToPage1" class="nav-btn-back">← Back</button>
     </div>
 
-    <!-- Flower Rain Layer (Global, stays above both pages) -->
+    <!-- Flower Rain -->
     <div id="rain-container"></div>
 
-    <!-- Background Music (place MP3 file in the same folder as this HTML) -->
+    <!-- Gold Music Toggle Button -->
+    <button id="music-btn" title="Toggle Music" aria-label="Toggle music">
+        <!-- Music note icon (shown when paused) -->
+        <svg id="icon-play" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 3v11.58A4 4 0 1 0 11 18V7h4V3H9zm-2 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+        </svg>
+        <!-- Muted icon (shown when playing) -->
+        <svg id="icon-mute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <path d="M9 3v11.58A4 4 0 1 0 11 18V7h4V3H9zm-2 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM3.41 2L2 3.41l18.59 18.6L22 20.59 3.41 2z"/>
+        </svg>
+    </button>
+
+    <!-- Audio -->
     <audio id="bg-music" loop>
         <source src="Relaxing_Elegant___Romantic_Wedding_Instrumental_Music_Emotional_Wedding_Day_Background_Music_2__rgQEvk77hX4___mp3cut_net_.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // 1. Navigation Logic to switch between pages
+        // ── Navigation ──
         document.getElementById('goToPage2').addEventListener('click', () => {
             document.getElementById('page1').classList.remove('active');
             document.getElementById('page2').classList.add('active');
@@ -329,67 +437,62 @@
             document.getElementById('page1').classList.add('active');
         });
 
-        // 2. Handle Sequential Item Appearances immediately
-        const items = document.querySelectorAll('.item-wrapper');
-        items.forEach((item, index) => {
-            setTimeout(() => {
-                item.classList.add('show');
-            }, 800 + (index * 600)); 
+        // ── Sequential item appearances ──
+        document.querySelectorAll('.item-wrapper').forEach((item, i) => {
+            setTimeout(() => item.classList.add('show'), 800 + i * 600);
         });
 
-        // 3. Handle Continuous Flower Rain Generation
+        // ── Flower rain ──
         const rainContainer = document.getElementById('rain-container');
-        const rainImageUrl = 'https://drive.google.com/thumbnail?id=1tneiar3mdst9bCMnoEcAfoPD8iSk4OkK&sz=s800';
+        const rainUrl = 'https://drive.google.com/thumbnail?id=1tneiar3mdst9bCMnoEcAfoPD8iSk4OkK&sz=s800';
 
         function spawnFlower() {
-            const flower = document.createElement('img');
-            flower.src = rainImageUrl;
-            flower.classList.add('flower');
-
-            const size = Math.random() * 25 + 15;
-            const leftPos = Math.random() * 100;
+            const f        = document.createElement('img');
+            f.src          = rainUrl;
+            f.classList.add('flower');
+            const size     = Math.random() * 22 + 12;
             const duration = Math.random() * 5 + 6;
-            const delay = Math.random() * 2;
-            
-            const rotateDir = Math.random() > 0.5 ? 1 : -1;
-            const targetRotation = rotateDir * (360 + Math.random() * 360);
-            const driftAmount = (Math.random() - 0.5) * 150;
-
-            flower.style.width = `${size}px`;
-            flower.style.left = `${leftPos}vw`;
-            flower.style.animationDuration = `${duration}s`;
-            flower.style.animationDelay = `${delay}s`;
-            
-            flower.style.setProperty('--rot-end', `${targetRotation}deg`);
-            flower.style.setProperty('--x-drift', `${driftAmount}px`);
-
-            rainContainer.appendChild(flower);
-
-            setTimeout(() => {
-                if(flower.parentNode) {
-                    flower.remove();
-                }
-            }, (duration + delay) * 1000);
+            const delay    = Math.random() * 2;
+            const rotDir   = Math.random() > 0.5 ? 1 : -1;
+            f.style.width             = `${size}px`;
+            f.style.left              = `${Math.random() * 100}vw`;
+            f.style.animationDuration = `${duration}s`;
+            f.style.animationDelay    = `${delay}s`;
+            f.style.setProperty('--rot-end', `${rotDir * (360 + Math.random() * 360)}deg`);
+            f.style.setProperty('--x-drift', `${(Math.random() - 0.5) * 140}px`);
+            rainContainer.appendChild(f);
+            setTimeout(() => f.parentNode && f.remove(), (duration + delay) * 1000);
         }
 
         setInterval(spawnFlower, 300);
+        for (let i = 0; i < 8; i++) setTimeout(spawnFlower, i * 100);
 
-        for(let i=0; i<8; i++) {
-            setTimeout(spawnFlower, i * 100);
-        }
+        // ── Music toggle ──
+        const music    = document.getElementById('bg-music');
+        const btn      = document.getElementById('music-btn');
+        const iconPlay = document.getElementById('icon-play');
+        const iconMute = document.getElementById('icon-mute');
+        let   playing  = false;
 
-        // 4. Background Music — starts on first user interaction
-        const music = document.getElementById('bg-music');
         music.volume = 0.5;
 
-        function startMusic() {
-            music.play().catch(() => {});
-            document.removeEventListener('click', startMusic);
-            document.removeEventListener('touchstart', startMusic);
+        function setPlaying(state) {
+            playing = state;
+            iconPlay.style.display = playing ? 'none'  : 'block';
+            iconMute.style.display = playing ? 'block' : 'none';
+            btn.classList.toggle('playing', playing);
         }
 
-        document.addEventListener('click', startMusic);
-        document.addEventListener('touchstart', startMusic);
+        btn.addEventListener('click', () => {
+            if (playing) {
+                music.pause();
+                setPlaying(false);
+            } else {
+                music.play()
+                    .then(() => setPlaying(true))
+                    .catch(err => console.warn('Audio play blocked:', err));
+            }
+        });
     </script>
 </body>
 </html>
