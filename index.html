@@ -1,1007 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Farah & Mahmoud — Wedding Invitation</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&family=Cinzel:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
-<style>
-  /* =====================================================================
-     🌟 EASY EDIT: TEXT COLORS, SIZES, AND POSITIONS 🌟
-     ===================================================================== */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enchanting Animated Scene</title>
+    
+    <!-- Beautiful elegant fonts for the wedding text -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base reset and layout */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #111; /* Fallback color */
+            font-family: sans-serif;
+        }
 
-  /* 1. INTRO & OUTRO TEXT */
-  .sub-text {
-    color: #e5c175;
-    font-size: clamp(0.75rem, 3vw, 1.1rem);
-    margin: 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    line-height: 1.4;
-    letter-spacing: 0.05em;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        /* Shared background styles */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            /* Subtle breathing animation for the backgrounds */
+            animation: bg-breathe 20s ease-in-out infinite alternate;
+        }
 
-  /* 2. MAIN NAMES */
-  .main-names {
-    color: #e5c175;
-    font-size: clamp(1.5rem, 7vw, 3rem);
-    margin: 0;
-    gap: 0.5vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Playfair Display', serif;
-    text-transform: uppercase;
-    font-weight: 400;
-    line-height: 1;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
-  }
+        #page1 .background {
+            background-image: url('https://drive.google.com/thumbnail?id=19W5O94TRiV6O9tqIp3YDQ9cXbS1SjH8T&sz=s800');
+        }
 
-  .main-names span:not(.amp) {
-    letter-spacing: 0.12em;
-    display: inline-block;
-  }
+        #page2 .background {
+            background-image: url('https://drive.google.com/thumbnail?id=1SmQkVmYLza7hPl0dZ2Nge0D4xCyOhP6G&sz=s800');
+        }
 
-  /* 3. THE AMPERSAND (&) */
-  .amp {
-    color: #e5c175;
-    font-size: 1.44em;
-    font-family: 'Pinyon Script', cursive;
-    text-transform: none;
-    line-height: 1;
-    font-weight: 400;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-    display: inline-block;
-  }
+        @keyframes bg-breathe {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
 
-  /* 4. DATE TEXT */
-  .date-header {
-    color: #e5c175;
-    font-size: clamp(0.8rem, 3.5vw, 1.4rem);
-    margin: 0;
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-weight: 400;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        /* --- PAGES SETUP --- */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s;
+            z-index: 1;
+        }
 
-  /* 5. YEAR */
-  .date-year {
-    color: #e5c175;
-    font-size: clamp(1.4rem, 5.5vw, 2.8rem);
-    margin: 0;
-    font-family: 'Cinzel', serif;
-    font-weight: 400;
-    letter-spacing: 0.15em;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
 
-  /* 6. TIME */
-  .date-time {
-    color: #e5c175;
-    font-size: clamp(0.85rem, 3.5vw, 1.4rem);
-    margin: 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        /* Foreground Items Container for Page 1 */
+        .scene-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none; /* Let clicks pass through */
+            display: grid;
+            place-items: center; /* Centers all grid items */
+        }
 
-  /* 7. VENUE LOCATION */
-  .venue-location {
-    color: #e5c175;
-    font-size: clamp(0.8rem, 3vw, 1.2rem);
-    margin: 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        /* Wrapper controls the sequential appear animation */
+        .item-wrapper {
+            grid-area: 1 / 1; /* Stacks all items in the exact same spot */
+            opacity: 0;
+            transform: scale(0.8) translateY(30px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: clamp(200px, 40vw, 500px); /* Uniform size for perfect overlapping */
+        }
 
-  /* 8. DRESS CODE */
-  .dress-code {
-    color: #ffffff;
-    font-size: clamp(0.7rem, 2.5vw, 1rem);
-    margin: 0;
-    font-family: 'Cormorant Garamond', serif;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-weight: 500;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
+        /* The class added via JS to trigger appearance */
+        .item-wrapper.show {
+            animation: appear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
 
-  /* =====================================================================
-     CORE LAYOUT & ANIMATIONS
-     ===================================================================== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* Inner image controls the continuous float animation */
+        .item-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0px 15px 15px rgba(0,0,0,0.3));
+            animation: float 4s ease-in-out infinite alternate;
+        }
 
-  html, body {
-    width: 100%;
-    min-height: 100%;
-    min-height: 100dvh;
-    background: radial-gradient(ellipse at 50% 40%, #ede5d8 0%, #d8ccba 60%, #c9bc9f 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-    font-family: 'Cormorant Garamond', serif;
-  }
+        /* Appearance Animation */
+        @keyframes appear {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.7) translateY(50px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0); 
+            }
+        }
 
-  .scene {
-    perspective: 1400px;
-    cursor: pointer;
-    position: relative;
-    width: 565px;
-    height: 800px;
-    transform-origin: top center;
-  }
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(-1deg); }
+        }
 
-  .env-body { position: absolute; inset: 0; z-index: 3; }
-  .env-body img { width:100%; height:100%; object-fit:contain; display:block; }
+        /* --- PAGE 2 INVITATION STYLES --- */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Soft darkening layer */
+            z-index: 2;
+        }
 
-  .env-flap {
-    position: absolute; top: 0; left: 0; width: 100%; height: 55%;
-    z-index: 5; transform-origin: top center; transform-style: preserve-3d;
-    transition: transform 2.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-  .env-flap img {
-    width: 100%; height: 800px; object-fit: contain;
-    object-position: top center; display: block; backface-visibility: hidden;
-  }
-  .scene.opened .env-flap { transform: rotateX(178deg); }
+        .invitation-content {
+            position: absolute;
+            top: 37%; /* TO MOVE UPWARD: Change this value to something like 35% or 40% */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            /* Entrance animation for text */
+            opacity: 0;
+            transform: translate(-50%, -40%);
+            transition: all 1.5s ease 0.5s;
+        }
 
-  /* ═══ CARD: INITIAL STATE (Inside Envelope) ═══ */
-  .card {
-    position: absolute;
-    left: 50%;
-    top: 52%;
-    transform: translateX(-50%);
-    width: 74%;
-    height: 44%;
-    background: url('https://drive.google.com/thumbnail?id=1WhQ5dpqn5Ylkxv6NE2gjpdmqbF54ckUC&sz=w2000') center/cover no-repeat;
-    border: 1px solid rgba(180,148,90,0.35);
-    border-radius: 2px;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
-    transition: none;
-    overflow: hidden;
-  }
+        .page.active .invitation-content {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
 
-  .card.full {
-    background-size: contain !important; 
-    background-position: center center !important;
-    background-color: #d8ccba !important; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+        .small-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            letter-spacing: 2px;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #E6C27A; /* Solid elegant gold */
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
+            /* Soft glowing pulse */
+            animation: text-pulse 4s ease-in-out infinite alternate;
+        }
 
-  .card-inner {
-    opacity: 0;
-    pointer-events: none;
-    /* Lock the aspect ratio to exactly match the background image */
-    aspect-ratio: 565 / 800;
-    width: 100%;
-    max-width: calc(100dvh * (565 / 800));
-    max-height: 100dvh;
-    margin: auto;
-    /* NO padding — we use a child with position:absolute so % means % of HEIGHT */
-    padding: 0;
-    position: relative;
-    z-index: 10;
-  }
+        @keyframes text-pulse {
+            0% { opacity: 0.85; text-shadow: 0px 2px 4px rgba(0,0,0,0.6); }
+            100% { opacity: 1; text-shadow: 0px 2px 12px rgba(230,194,122,0.4); }
+        }
 
-  /*
-   * Reference measurements from the background image (565 × 800 px native):
-   *   • Wax stamp bottom edge  ≈  y 168px  →  168/800 = 21%
-   *   • Bottom decorative trim ≈  y 720px  →  (800-720)/800 = 10%
-   *   • Left/right safe inset  ≈  x 46px   →  46/565 = 8%
-   * Using position:absolute means top/left/right/bottom are % of the
-   * container's HEIGHT and WIDTH respectively — exactly what we need.
-   */
-  .card-content {
-    position: absolute;
-    top: 21%;     /* just below the wax stamp */
-    bottom: 10%;  /* above the bottom decorative border */
-    left: 8%;
-    right: 8%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    text-align: center;
-    overflow: hidden;
-  }
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 10vw, 7rem);
+            margin: 10px 0;
+            font-weight: normal;
+            
+            /* Gold Gradient with continuous Shimmer */
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #BF953F);
+            background-size: 200% auto;
+            color: #D4AF37; /* Fallback for browsers that don't support clip */
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            animation: gold-shimmer 5s infinite linear;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
+        }
 
-  .card.full .card-inner {
-    pointer-events: all;
-    opacity: 1;
-  }
+        @keyframes gold-shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
 
-  /* =====================================================================
-     ✨ HIGH-END ELEGANT ANIMATION SEQUENCE ✨
-     ===================================================================== */
-  
-  /* Reset opacity for children before keyframes take over */
-  .card-content > * { opacity: 0; }
-  .main-names span { opacity: 0; }
+        .names .ampersand {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            display: block;
+            margin: -5px 0;
+            -webkit-text-fill-color: #FFF2CD; /* Slightly brighter for contrast */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
 
-  /* Ensure the names container itself is visible so we can animate spans inside */
-  .card.full .card-content > *:nth-child(2) { opacity: 1; }
+        /* --- NAVIGATION BUTTONS --- */
+        .nav-btn {
+            position: absolute;
+            bottom: 6%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            padding: 12px 35px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-  /* 1. Sub-text */
-  .card.full .card-content > *:nth-child(1) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-50%) scale(1.05);
+        }
 
-  /* 2. Names Sequence */
-  .card.full .main-names span:nth-child(1) { animation: nameReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards, textGlow 4s ease-in-out 2.2s infinite; }
-  .card.full .main-names span.amp          { animation: ampReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards, textGlow 4s ease-in-out 2.6s infinite; }
-  .card.full .main-names span:nth-child(3) { animation: nameReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards, textGlow 4s ease-in-out 3.2s infinite; }
+        /* --- RAIN PARTICLES --- */
+        #rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
 
-  /* 3. Sub-text */
-  .card.full .card-content > *:nth-child(3) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards; }
-  
-  /* 4. Rule (Line) */
-  .card.full .card-content > *:nth-child(4) { animation: lineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2.8s forwards; }
-  
-  /* 5. Date Header */
-  .card.full .card-content > *:nth-child(5) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 3.0s forwards; }
-  
-  /* 6. Date Year */
-  .card.full .card-content > *:nth-child(6) { animation: yearReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards; }
-  
-  /* 7. Date Time */
-  .card.full .card-content > *:nth-child(7) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 3.4s forwards; }
+        .flower {
+            position: absolute;
+            top: -10%;
+            opacity: 0;
+            will-change: transform, opacity;
+            animation: fall linear forwards;
+        }
 
-  /* 8. Venue Location */
-  .card.full .card-content > *:nth-child(8) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 3.6s forwards; }
-  
-  /* 9. Rule (Line) */
-  .card.full .card-content > *:nth-child(9) { animation: lineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 3.8s forwards; }
-  
-  /* 10. Dress Code */
-  .card.full .card-content > *:nth-child(10) { animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 4.0s forwards; }
-  
-  /* 11. Buttons */
-  .card.full .card-content > *:nth-child(11){ animation: luxuryReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 4.2s forwards; }
-
-  /* 12. Close Button */
-  .card.full .close-btn { opacity: 1; pointer-events: all; transition: opacity 0.8s ease 4.8s; }
-
-
-  /* ── Keyframes for Cinematic Motion ── */
-  @keyframes luxuryReveal {
-    0% { opacity: 0; transform: translateY(24px) scale(0.98); filter: blur(6px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  }
-
-  @keyframes nameReveal {
-    0% { opacity: 0; transform: translateY(30px) scale(0.95); letter-spacing: 0.35em; filter: blur(10px); }
-    50% { text-shadow: 0 0 15px rgba(229,193,117,0.5); }
-    100% { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.12em; filter: blur(0); text-shadow: 1px 1px 5px rgba(0,0,0,0.6); }
-  }
-
-  @keyframes ampReveal {
-    0% { opacity: 0; transform: scale(0.6) rotate(-15deg); filter: blur(8px); }
-    70% { transform: scale(1.1) rotate(5deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); text-shadow: 1px 1px 5px rgba(0,0,0,0.6); }
-  }
-
-  @keyframes textGlow {
-    0%, 100% { text-shadow: 1px 1px 5px rgba(0,0,0,0.6), 0 0 2px rgba(229,193,117,0.0); color: #e5c175; }
-    50% { text-shadow: 1px 1px 5px rgba(0,0,0,0.6), 0 0 15px rgba(229,193,117,0.8), 0 0 25px rgba(229,193,117,0.5); color: #fff8eb; }
-  }
-
-  @keyframes yearReveal {
-    0% { opacity: 0; transform: translateY(15px) scale(1.1); letter-spacing: 0.3em; filter: blur(8px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.15em; filter: blur(0); }
-  }
-
-  @keyframes lineExpand {
-    0% { transform: scaleX(0); opacity: 0; filter: blur(4px); }
-    100% { transform: scaleX(1); opacity: 1; filter: blur(0); }
-  }
-
-
-  /* Decorative Rule */
-  .rule { 
-    width: 25%; 
-    max-width: 140px; 
-    height: 1px; 
-    background: linear-gradient(to right, transparent, #e5c175, transparent); 
-    flex-shrink: 0; 
-    transform-origin: center;
-    margin: 0;
-  }
-  
-  .sub-text.italic { font-style: italic; }
-
-  /* ─── CTA Buttons ─── */
-  .btn-row {
-    display: flex;
-    gap: 16px;
-    margin-top: 0;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 20;
-  }
-  .btn {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.75rem, 2.2vw, 1rem);
-    letter-spacing: .15em;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #f0deba;
-    border: 1px solid rgba(229,193,117,0.6);
-    background: rgba(40,30,15,0.7);
-    padding: 12px 26px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    backdrop-filter: blur(6px);
-    min-width: 120px;
-    justify-content: center;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  }
-  .btn:hover, .btn:active { 
-    background: rgba(229,193,117,0.3); 
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3); 
-    color: #ffffff; 
-    transform: translateY(-2px);
-  }
-  .btn svg { width:16px; height:16px; flex-shrink:0; }
-
-  /* close btn - Adjusted positioning */
-  .close-btn {
-    position: absolute;
-    top: 24px; right: 28px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.75rem, 2vw, 0.95rem);
-    font-weight: 500;
-    letter-spacing: .15em;
-    color: #e5c175;
-    text-transform: uppercase;
-    cursor: pointer;
-    opacity: 0;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(229,193,117,0.4);
-    padding: 10px 20px;
-    border-radius: 2px;
-    pointer-events: none;
-    z-index: 20;
-    background: rgba(20,15,5,0.7);
-    backdrop-filter: blur(4px);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  }
-  .close-btn:hover { background: rgba(229,193,117,0.2); color: #fff; }
-
-  /* Shimmer */
-  .card-shimmer {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, transparent 40%, rgba(255,245,230,0.6) 50%, transparent 60%);
-    background-size: 200% 100%;
-    background-position: -100% 0;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-  }
-  .card.full .card-shimmer {
-    opacity: 1;
-    animation: shimmer 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-  }
-  @keyframes shimmer {
-    from { background-position: -100% 0; }
-    to   { background-position: 200% 0; opacity: 0; }
-  }
-
-  .scene { animation: sceneRise 1.1s cubic-bezier(0.34,1.1,0.64,1) both; }
-  @keyframes sceneRise {
-    from { transform: translateY(50px) scale(0.96); opacity:0; }
-    to   { transform: translateY(0) scale(1); opacity:1; }
-  }
-  .scene:not(.opened) {
-    animation: sceneRise 1.1s cubic-bezier(0.34,1.1,0.64,1) both,
-               bob 5s ease-in-out 1.5s infinite;
-  }
-  @keyframes bob {
-    0%,100% { transform: translateY(0); }
-    50%     { transform: translateY(-8px); }
-  }
-
-  .hint {
-    margin-top: -65px; 
-    position: relative;
-    z-index: 20; 
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-    font-weight: 500;
-    color: #4a3418;
-    letter-spacing: .08em;
-    transition: opacity .4s;
-    user-select: none;
-    text-align: center;
-    padding: 0 16px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-  .hint.hidden { opacity:0; pointer-events:none; }
-
-  .petal {
-    position: fixed; width: 8px; height: 13px; border-radius: 50% 50% 50% 0;
-    opacity: 0; pointer-events: none; animation: fall linear forwards; z-index: 100;
-  }
-  @keyframes fall {
-    from { opacity:.75; transform: translateY(-20px) rotate(0deg); }
-    to   { opacity:0;   transform: translateY(110vh) rotate(400deg); }
-  }
-
-  /* ═══ MODALS ═══ */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(40,28,16,0.65);
-    backdrop-filter: blur(8px); z-index: 200; display: flex;
-    align-items: center; justify-content: center; opacity: 0;
-    pointer-events: none; transition: opacity 0.35s ease; padding: 16px;
-  }
-  .modal-overlay.show { opacity: 1; pointer-events: all; }
-  .modal-box {
-    background: #f8f3eb; border: 1px solid rgba(180,148,90,0.4);
-    border-radius: 2px; padding: 44px 36px 36px; max-width: 440px;
-    width: 100%; text-align: center; position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    transform: translateY(24px) scale(0.97);
-    transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1);
-    max-height: 90dvh; overflow-y: auto;
-  }
-  .modal-overlay.show .modal-box { transform: translateY(0) scale(1); }
-  .modal-box::before {
-    content: ''; position: absolute; inset: 9px;
-    border: 1px solid rgba(180,148,90,0.18); border-radius: 1px; pointer-events: none;
-  }
-  .modal-title { font-family:'Playfair Display',serif; font-size: clamp(2rem,8vw,2.6rem); color:#e5c175; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-  .modal-sub   { font-family:'Cormorant Garamond',serif; font-size: clamp(0.9rem,2.5vw,1.1rem); letter-spacing:.15em; color:#cca550; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
-  .modal-rule  { width:70px; height:1px; background:linear-gradient(to right,transparent,#e5c175,transparent); margin:0 auto 20px; }
-
-  .rsvp-form { display:flex; flex-direction:column; gap:12px; text-align:left; }
-  .rsvp-form input, .rsvp-form select {
-    width:100%; padding:14px; border:1px solid rgba(180,148,90,0.4); border-radius:1px;
-    background:rgba(255,255,255,0.6); font-family:'Cormorant Garamond',serif; font-size:1.1rem;
-    color:#3a2810; outline:none; letter-spacing:0.03em; -webkit-appearance: none;
-  }
-  .rsvp-form input:focus, .rsvp-form select:focus { border-color:#cca550; background:rgba(255,255,255,0.9); }
-  .rsvp-form input::placeholder { color:#9a8060; font-style:italic; }
-  .rsvp-submit {
-    font-family:'Cormorant Garamond',serif; font-size: clamp(0.9rem,2.5vw,1.1rem); font-weight:500;
-    letter-spacing:.15em; text-transform:uppercase; color:#fff; background:#cca550;
-    border:none; padding:14px 28px; border-radius:1px; cursor:pointer; margin-top:4px;
-    transition:background 0.2s; width:100%;
-  }
-  .rsvp-submit:hover, .rsvp-submit:active { background:#b38f40; }
-
-  .loc-address { font-style:italic; font-size: clamp(1rem,3vw,1.15rem); line-height:1.8; margin-bottom:16px; color:#6a5030; }
-  .loc-map { width:100%; height:200px; border:1px solid rgba(180,148,90,0.3); border-radius:2px; margin-bottom:16px; overflow:hidden; }
-  .loc-map iframe { width:100%; height:100%; border:none; }
-  .loc-btn {
-    display:inline-block; font-family:'Cormorant Garamond',serif; font-size: clamp(0.9rem,2vw,1rem);
-    letter-spacing:.15em; font-weight:500; text-transform:uppercase; color:#fff;
-    background:#cca550; padding:13px 28px; border-radius:1px;
-    text-decoration:none; transition:background 0.2s; width: 100%;
-  }
-  .loc-btn:hover, .loc-btn:active { background:#b38f40; }
-
-  .modal-close {
-    position:absolute; top:14px; right:16px; font-family:'Cormorant Garamond',serif;
-    font-size: clamp(0.8rem,2vw,0.9rem); font-weight:500; letter-spacing:.15em; color:#cca550;
-    cursor:pointer; border:1px solid rgba(204,165,80,0.3); padding:6px 12px;
-    border-radius:1px; text-transform:uppercase;
-  }
-  .modal-close:hover { background:rgba(204,165,80,0.1); }
-
-  .rsvp-thanks { display:none; flex-direction:column; align-items:center; gap:10px; padding:10px 0; }
-  .rsvp-thanks.show { display:flex; }
-  .rsvp-thanks .ty-icon { font-size:2.5rem; color:#cca550; }
-  .rsvp-thanks .ty-text { font-family:'Playfair Display',serif; font-size: clamp(1.6rem,6vw,2.2rem); color:#cca550; text-transform:uppercase; letter-spacing:0.05em; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-  .rsvp-thanks .ty-sub  { font-family:'Cormorant Garamond',serif; font-size: clamp(0.9rem,2vw,1rem); letter-spacing:.15em; color:#9a7848; text-transform:uppercase; }
-
-  /* ── Mobile adjustments ── */
-  @media (max-width: 600px) {
-    body { justify-content: flex-start; padding-top: 8px; overflow-x: hidden; }
-    .scene {
-      transform: scale(calc(100vw / 565));
-      transform-origin: top center;
-      margin-bottom: calc((100vw / 565 - 1) * 800px);
-    }
-  }
-
-  /* ═══ LOADING SCREEN ═══ */
-  #loadingScreen {
-    position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, #ede5d8 0%, #d8ccba 60%, #c9bc9f 100%);
-    z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; transition: opacity 0.8s ease;
-  }
-  #loadingScreen.fade-out { opacity: 0; pointer-events: none; }
-  .loading-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 8vw, 4rem); text-transform: uppercase; color: #cca550; line-height: 1; letter-spacing: 0.05em; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-  .loading-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(0.9rem, 2.5vw, 1.1rem); letter-spacing: .25em; font-weight: 500; color: #a68440; text-transform: uppercase; }
-  .loading-bar-wrap { width: 160px; height: 1px; background: rgba(180,148,90,0.2); border-radius: 2px; overflow: hidden; }
-  .loading-bar { height: 100%; width: 0%; background: linear-gradient(to right, #cca550, #f0deba, #cca550); border-radius: 2px; transition: width 0.3s ease; }
-  .loading-dots { display: flex; gap: 8px; }
-  .loading-dots span { width: 5px; height: 5px; border-radius: 50%; background: rgba(204,165,80,0.5); animation: dotPulse 1.4s ease-in-out infinite; }
-  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.4); opacity: 1; background: #cca550; } }
-
-  /* ═══ MUSIC PLAYER ═══ */
-  #musicPlayer {
-    position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; align-items: center; gap: 0;
-    height: 48px; border-radius: 100px; overflow: hidden; transition: width 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
-  }
-  #musicBtn {
-    position: relative; width: 48px; height: 48px; min-width: 48px; border-radius: 50%; border: 1px solid rgba(180,148,90,0.55);
-    background: rgba(30, 20, 10, 0.72); backdrop-filter: blur(14px); cursor: pointer; display: flex; align-items: center;
-    justify-content: center; box-shadow: 0 4px 24px rgba(0,0,0,0.22), 0 0 0 1px rgba(184,146,90,0.18) inset;
-    transition: background 0.3s, box-shadow 0.3s, transform 0.2s; outline: none; z-index: 2; flex-shrink: 0;
-  }
-  #musicBtn:hover { background: rgba(50, 35, 15, 0.85); box-shadow: 0 6px 28px rgba(184,146,90,0.35), 0 0 0 1px rgba(184,146,90,0.3) inset; transform: scale(1.07); }
-  #musicBtn:active { transform: scale(0.96); }
-  #musicBtn::before {
-    content: ''; position: absolute; inset: -3px; border-radius: 50%; border: 1.5px solid transparent;
-    border-top-color: #cca550; border-right-color: rgba(204,165,80,0.3); opacity: 0; transition: opacity 0.4s;
-    animation: spinRing 2.2s linear infinite; animation-play-state: paused;
-  }
-  #musicBtn.playing::before { opacity: 1; animation-play-state: running; }
-  @keyframes spinRing { to { transform: rotate(360deg); } }
-  #musicBtn.playing { box-shadow: 0 4px 24px rgba(204,165,80,0.4), 0 0 0 1px rgba(204,165,80,0.25) inset; }
-  #musicBtn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-  #musicLabel {
-    height: 48px; padding: 0 18px 0 10px; background: rgba(20, 12, 4, 0.72); backdrop-filter: blur(14px);
-    border: 1px solid rgba(180,148,90,0.4); border-left: none; border-radius: 0 100px 100px 0; display: flex;
-    align-items: center; gap: 8px; overflow: hidden; max-width: 0; opacity: 0; transition: max-width 0.5s cubic-bezier(0.34, 1.1, 0.64, 1), opacity 0.4s ease;
-    white-space: nowrap; pointer-events: none;
-  }
-  #musicPlayer.expanded #musicLabel { max-width: 200px; opacity: 1; }
-
-  .wave-bars { display: flex; align-items: center; gap: 2px; height: 16px; }
-  .wave-bars span { display: block; width: 2.5px; border-radius: 2px; background: #cca550; height: 4px; transition: height 0.2s; }
-  #musicPlayer.playing .wave-bars span:nth-child(1) { animation: wave 0.9s ease-in-out infinite; }
-  #musicPlayer.playing .wave-bars span:nth-child(2) { animation: wave 0.9s ease-in-out 0.15s infinite; }
-  #musicPlayer.playing .wave-bars span:nth-child(3) { animation: wave 0.9s ease-in-out 0.3s infinite; }
-  #musicPlayer.playing .wave-bars span:nth-child(4) { animation: wave 0.9s ease-in-out 0.1s infinite; }
-  @keyframes wave { 0%, 100% { height: 3px; } 50% { height: 14px; } }
-  #musicTrackName { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: rgba(229, 193, 117, 0.9); letter-spacing: 0.04em; }
-
-</style>
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0;
+                transform: rotate(0deg) translateX(0px);
+            }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px));
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="scene" id="scene" onclick="startOpen()">
+    <!-- PAGE 1 (Original Scene) -->
+    <div id="page1" class="page active">
+        <div class="background"></div>
 
-  <!-- CARD behind envelope -->
-  <div class="card" id="card">
-    <div class="card-shimmer"></div>
-    
-    <div class="close-btn" id="closeBtn">✕ &nbsp; Close</div>
+        <!-- Foreground Animated Layered Items -->
+        <div class="scene-container">
+            <div class="item-wrapper" id="item1">
+                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s800" alt="Scene Item 1" style="animation-delay: 0s;">
+            </div>
+            
+            <div class="item-wrapper" id="item2">
+                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s800" alt="Scene Item 2" style="animation-delay: -1.5s;">
+            </div>
+            
+            <div class="item-wrapper" id="item3">
+                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s800" alt="Scene Item 3" style="animation-delay: -3s;">
+            </div>
 
-    <!-- The inner wrapper locks aspect-ratio to the image.
-         card-content uses position:absolute so top/bottom % = % of the image HEIGHT,
-         not width — this is how we pin text precisely to the design. -->
-    <div class="card-inner">
-      <div class="card-content">
-      
-        <div class="sub-text italic">Together with their families</div>
-        
-        <div class="main-names">
-          <span>FARAH</span>
-          <span class="amp">&</span>
-          <span>MAHMOUD</span>
+            <div class="item-wrapper" id="item4">
+                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s800" alt="Scene Item 4" style="animation-delay: -4.5s;">
+            </div>
         </div>
         
-        <div class="sub-text italic">invite you to celebrate their wedding</div>
-        
-        <div class="rule"></div>
-        
-        <div class="date-header">FRIDAY, 12TH of June</div>
-        
-        <div class="date-year">2026</div>
-        
-        <div class="date-time italic">at 7:00 PM</div>
-        
-        <!-- New Location Added Here -->
-        <div class="venue-location">Giza Palace Hotel - Palace Ballroom</div>
-        
-        <div class="rule"></div>
-        
-        <!-- Dress Code Changed -->
-        <div class="dress-code">Dress Code: White</div>
+        <!-- Button to transition to Page 2 -->
+        <button id="goToPage2" class="nav-btn">View Invitation</button>
+    </div>
 
-        <div class="btn-row">
-          <button class="btn" onclick="openModal('rsvp', event)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            RSVP
-          </button>
-          <button class="btn" onclick="openLocation(event)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Location
-          </button>
+    <!-- PAGE 2 (Invitation Text) -->
+    <div id="page2" class="page">
+        <div class="background"></div>
+        <div class="overlay"></div>
+        
+        <div class="invitation-content">
+            <p class="small-text">Together with their families</p>
+            <h1 class="names">Tahany <span class="ampersand">&</span> Ahmed</h1>
+            <p class="small-text">Invite you to join them<br>for their wedding day</p>
         </div>
 
-      </div><!-- /.card-content -->
-    </div><!-- /.card-inner -->
-  </div>
-
-  <!-- ENVELOPE BODY -->
-  <div class="env-body">
-    <img src="https://drive.google.com/thumbnail?id=1OCMkJUtbUMcqNnhE_xcGbQIJoLiBz_8z&sz=w2000" alt="Envelope">
-  </div>
-
-  <!-- ENVELOPE FLAP -->
-  <div class="env-flap" id="flap">
-    <img src="https://drive.google.com/thumbnail?id=1Rrp3ohEFBiJRV8lLHbl-37-Hod3sqwPH&sz=w2000" alt="Envelope Flap">
-  </div>
-
-</div>
-
-<!-- Larger Click Hint -->
-<div class="hint" id="hint">✦ Click to open your invitation ✦</div>
-
-<!-- ── RSVP MODAL ── -->
-<div class="modal-overlay" id="modal-rsvp">
-  <div class="modal-box">
-    <span class="modal-close" onclick="closeModal('rsvp')">✕ Close</span>
-    <div class="modal-title">RSVP</div>
-    <div class="modal-sub">Kindly reply by May 1st, 2025</div>
-    <div class="modal-rule"></div>
-    <div class="rsvp-form" id="rsvpForm">
-      <input type="text" placeholder="Your Full Name" id="rsvpName">
-      <select id="rsvpAttend">
-        <option value="" disabled selected>Will you attend?</option>
-        <option value="yes">Joyfully accepts</option>
-        <option value="no">Regretfully declines</option>
-      </select>
-      <input type="number" placeholder="Number of guests" min="1" max="6" id="rsvpGuests">
-      <input type="text" placeholder="Leave a message for the couple 💌" id="rsvpDiet">
-      <button class="rsvp-submit" onclick="submitRSVP()">Confirm Attendance</button>
+        <!-- Button to go back to Page 1 -->
+        <button id="goToPage1" class="nav-btn">Back</button>
     </div>
-    <div class="rsvp-thanks" id="rsvpThanks">
-      <div class="ty-icon">✦</div>
-      <div class="ty-text">Thank You!</div>
-      <div class="ty-sub">We look forward to celebrating with you</div>
-    </div>
-  </div>
-</div>
 
-<!-- ── LOCATION MODAL ── -->
-<div class="modal-overlay" id="modal-location">
-  <div class="modal-box">
-    <span class="modal-close" onclick="closeModal('location')">✕ Close</span>
-    <div class="modal-title">Location</div>
-    <div class="modal-sub">Venue Details</div>
-    <div class="modal-rule"></div>
-    <div class="loc-address">
-      Giza Palace Hotel<br>
-      Palace Ballroom
-    </div>
-    <div class="loc-map">
-      <iframe
-        src="https://maps.google.com/maps?q=Giza+Palace+Egypt&output=embed"
-        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
-    <a class="loc-btn" href="https://maps.app.goo.gl/W3ZZRupdERwSSwjc8" target="_blank" rel="noopener">
-      📍 &nbsp; Open in Google Maps
-    </a>
-  </div>
-</div>
+    <!-- Flower Rain Layer (Global, stays above both pages) -->
+    <div id="rain-container"></div>
 
-<audio id="bgMusic" loop preload="auto">
-  <source src="Mariage_d_Amour.mp3" type="audio/mpeg">
-</audio>
-
-<div id="musicPlayer">
-  <button id="musicBtn" onclick="toggleMusic()" title="Toggle Music" aria-label="Toggle Music">
-    <svg id="iconPlay" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" stroke="rgba(204,165,80,0.6)" stroke-width="1"/>
-      <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="#cca550" stroke="#cca550" stroke-width="0.5" stroke-linejoin="round"/>
-    </svg>
-    <svg id="iconPause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-      <circle cx="12" cy="12" r="10" stroke="rgba(204,165,80,0.6)" stroke-width="1"/>
-      <rect x="9" y="8" width="2" height="8" rx="1" fill="#cca550"/>
-      <rect x="13" y="8" width="2" height="8" rx="1" fill="#cca550"/>
-    </svg>
-  </button>
-  <div id="musicLabel">
-    <div class="wave-bars">
-      <span></span><span></span><span></span><span></span>
-    </div>
-    <div id="musicTrackName">Mariage d'Amour</div>
-  </div>
-</div>
-
-<div id="loadingScreen">
-  <div class="loading-title">FARAH & MAHMOUD</div>
-  <div class="loading-sub">Loading your invitation</div>
-  <div class="loading-bar-wrap"><div class="loading-bar" id="loadingBar"></div></div>
-  <div class="loading-dots"><span></span><span></span><span></span></div>
-</div>
-
-<script>
-  let state = 'closed';
-
-  document.getElementById('closeBtn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeCard();
-  });
-
-  function startOpen() {
-    if (state !== 'closed') return;
-    state = 'flipping';
-    document.getElementById('card').style.opacity = '1';
-    document.getElementById('scene').classList.add('opened');
-    document.getElementById('hint').classList.add('hidden');
-    setTimeout(riseCard, 300);
-  }
-
-  function riseCard() {
-    state = 'rising';
-    const card = document.getElementById('card');
-    card.style.transition = 'top 1.4s cubic-bezier(0.34, 1.05, 0.64, 1)';
-    card.style.top = '-14%';
-    spawnPetals();
-    setTimeout(expandCard, 700);
-  }
-
-  function expandCard() {
-    state = 'expanding';
-    const card = document.getElementById('card');
-    const cardRect = card.getBoundingClientRect();
-
-    document.body.appendChild(card);
-
-    card.style.transition = 'none';
-    card.style.position  = 'fixed';
-    card.style.left      = cardRect.left + 'px';
-    card.style.top       = cardRect.top  + 'px';
-    card.style.width     = cardRect.width  + 'px';
-    card.style.height    = cardRect.height + 'px';
-    card.style.transform = 'none';
-    card.style.zIndex    = '50';
-    card.getBoundingClientRect(); 
-
-    card.style.transition = [
-      'left .9s cubic-bezier(0.4,0,0.2,1)',
-      'top .9s cubic-bezier(0.4,0,0.2,1)',
-      'width .9s cubic-bezier(0.4,0,0.2,1)',
-      'height .9s cubic-bezier(0.4,0,0.2,1)',
-      'border-radius .9s ease',
-      'box-shadow .9s ease'
-    ].join(',');
-
-    card.style.left           = '0px';
-    card.style.top            = '0px';
-    card.style.width          = window.innerWidth  + 'px';
-    card.style.height         = window.innerHeight + 'px';
-    card.style.borderRadius   = '0';
-    card.style.border         = 'none';
-    card.style.boxShadow      = 'none';
-    card.style.margin         = '0';
-    card.style.pointerEvents  = 'all';
-    card.style.display        = 'flex';
-    card.style.alignItems     = 'center';
-    card.style.justifyContent = 'center';
-    card.style.padding        = '0';
-
-    setTimeout(() => {
-      card.style.width = '100%';
-      card.style.height = '100%';
-      card.classList.add('full');
-      state = 'full';
-    }, 920);
-  }
-
-  function closeCard() {
-    if (state !== 'full') return;
-    state = 'shrinking';
-    const card = document.getElementById('card');
-    card.classList.remove('full');
-
-    // Reset animations properly on close
-    card.querySelectorAll('.card-content > *, .main-names span').forEach(el => {
-      el.style.animation = 'none';
-      el.style.opacity = '0';
-    });
-
-    const scene = document.getElementById('scene');
-    const sceneRect = scene.getBoundingClientRect();
-    
-    const targetW = sceneRect.width * 0.74;
-    const targetH = sceneRect.height * 0.44;
-    const targetL = sceneRect.left + (sceneRect.width - targetW) / 2;
-    const targetT_peek = sceneRect.top - (sceneRect.height * 0.14);
-
-    card.style.transition = [
-      'left .8s cubic-bezier(0.4,0,0.2,1)',
-      'top .8s cubic-bezier(0.4,0,0.2,1)',
-      'width .8s cubic-bezier(0.4,0,0.2,1)',
-      'height .8s cubic-bezier(0.4,0,0.2,1)',
-      'border-radius .8s ease',
-      'box-shadow .8s ease'
-    ].join(',');
-
-    card.style.left         = targetL + 'px';
-    card.style.top          = targetT_peek + 'px';
-    card.style.width        = targetW + 'px';
-    card.style.height       = targetH + 'px';
-    card.style.borderRadius = '2px';
-    card.style.border       = '1px solid rgba(180,148,90,0.35)';
-    card.style.boxShadow    = '0 -4px 20px rgba(0,0,0,0.12)';
-    card.style.pointerEvents = 'none';
-
-    setTimeout(() => {
-      state = 'sliding_down';
-      
-      scene.insertBefore(card, scene.firstChild);
-
-      card.style.transition   = 'none';
-      card.style.position     = 'absolute';
-      card.style.left         = '50%';
-      card.style.top          = '-14%';
-      card.style.width        = '74%';
-      card.style.height       = '44%';
-      card.style.transform    = 'translateX(-50%)';
-      card.style.zIndex       = '1';
-      card.style.padding      = '32px 36px';
-      
-      card.getBoundingClientRect(); 
-
-      card.style.transition = 'top 1.0s cubic-bezier(0.34, 1.05, 0.64, 1)';
-      card.style.top = '52%';
-
-      setTimeout(() => {
-        scene.classList.remove('opened');
-      }, 500);
-
-      setTimeout(() => {
-        state = 'closed';
-        card.style.opacity = '0';
-        document.getElementById('hint').classList.remove('hidden');
-        
-        // Remove 'none' animation to reset for next opening
-        card.querySelectorAll('.card-content > *, .main-names span').forEach(el => {
-          el.style.animation = '';
+    <script>
+        // 1. Navigation Logic to switch between pages
+        document.getElementById('goToPage2').addEventListener('click', () => {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
         });
-      }, 1100);
 
-    }, 820);
-  }
+        document.getElementById('goToPage1').addEventListener('click', () => {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+        });
 
-  function openModal(type, e) {
-    if (e) e.stopPropagation();
-    document.getElementById('modal-' + type).classList.add('show');
-  }
-  function closeModal(type) {
-    document.getElementById('modal-' + type).classList.remove('show');
-  }
+        // 2. Handle Sequential Item Appearances immediately
+        // Changed this to run right away so it doesn't wait for heavy images to finish loading
+        const items = document.querySelectorAll('.item-wrapper');
+        items.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('show');
+            }, 800 + (index * 600)); 
+        });
 
-  function openLocation(e) {
-    if (e) e.stopPropagation();
-    openModal('location', e);
-  }
+        // 3. Handle Continuous Flower Rain Generation
+        const rainContainer = document.getElementById('rain-container');
+        const rainImageUrl = 'https://drive.google.com/thumbnail?id=1tneiar3mdst9bCMnoEcAfoPD8iSk4OkK&sz=s800';
 
-  document.querySelectorAll('.modal-overlay').forEach(el => {
-    el.addEventListener('click', function(e) {
-      if (e.target === el) el.classList.remove('show');
-    });
-  });
+        function spawnFlower() {
+            const flower = document.createElement('img');
+            flower.src = rainImageUrl;
+            flower.classList.add('flower');
 
-  function submitRSVP() {
-    const name = document.getElementById('rsvpName').value.trim();
-    const attend = document.getElementById('rsvpAttend').value;
-    if (!name || !attend) { alert('Please fill in your name and attendance.'); return; }
-    document.getElementById('rsvpForm').style.display = 'none';
-    document.getElementById('rsvpThanks').classList.add('show');
-  }
+            // Randomize visual properties
+            const size = Math.random() * 25 + 15;
+            const leftPos = Math.random() * 100;
+            const duration = Math.random() * 5 + 6;
+            const delay = Math.random() * 2;
+            
+            // Randomize movement path
+            const rotateDir = Math.random() > 0.5 ? 1 : -1;
+            const targetRotation = rotateDir * (360 + Math.random() * 360);
+            const driftAmount = (Math.random() - 0.5) * 150;
 
-  function spawnPetals() {
-    const colors = ['#e8c5b0','#d4bfa0','#c8d5b9','#f0e0d0','#f5e8d5','#e0d4c0'];
-    for (let i = 0; i < 26; i++) {
-      setTimeout(() => {
-        const p = document.createElement('div');
-        p.className = 'petal';
-        p.style.cssText = `left:${Math.random()*100}vw;top:-20px;background:${colors[i%colors.length]};animation-duration:${2.5+Math.random()*3.5}s;animation-delay:${Math.random()*1.5}s`;
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 7000);
-      }, i * 60);
-    }
-  }
+            flower.style.width = `${size}px`;
+            flower.style.left = `${leftPos}vw`;
+            flower.style.animationDuration = `${duration}s`;
+            flower.style.animationDelay = `${delay}s`;
+            
+            flower.style.setProperty('--rot-end', `${targetRotation}deg`);
+            flower.style.setProperty('--x-drift', `${driftAmount}px`);
 
-  var musicPlaying = false;
-  var music = document.getElementById('bgMusic');
-  music.volume = 0.5;
+            rainContainer.appendChild(flower);
 
-  function toggleMusic() {
-    var btn = document.getElementById('musicBtn');
-    var player = document.getElementById('musicPlayer');
-    if (musicPlaying) {
-      music.pause();
-      btn.classList.remove('playing');
-      player.classList.remove('playing', 'expanded');
-      document.getElementById('iconPlay').style.display = '';
-      document.getElementById('iconPause').style.display = 'none';
-    } else {
-      music.play();
-      btn.classList.add('playing');
-      player.classList.add('playing', 'expanded');
-      document.getElementById('iconPlay').style.display = 'none';
-      document.getElementById('iconPause').style.display = '';
-    }
-    musicPlaying = !musicPlaying;
-  }
+            setTimeout(() => {
+                if(flower.parentNode) {
+                    flower.remove();
+                }
+            }, (duration + delay) * 1000);
+        }
 
-  var htmlReady = false;
-  var audioReady = false;
-  var loadingBar = document.getElementById('loadingBar');
+        // Spawn flowers regularly
+        setInterval(spawnFlower, 300);
 
-  function updateProgress() {
-    var progress = (htmlReady ? 50 : 0) + (audioReady ? 50 : 0);
-    loadingBar.style.width = progress + '%';
-  }
-
-  function tryReveal() {
-    if (htmlReady && audioReady) {
-      setTimeout(function() {
-        var screen = document.getElementById('loadingScreen');
-        screen.classList.add('fade-out');
-        setTimeout(function() { screen.style.display = 'none'; }, 850);
-      }, 300);
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', function() {
-    htmlReady = true;
-    updateProgress();
-    tryReveal();
-  });
-
-  music.addEventListener('canplaythrough', function() {
-    audioReady = true;
-    updateProgress();
-    tryReveal();
-  });
-
-  setTimeout(function() {
-    audioReady = true; htmlReady = true;
-    updateProgress();
-    tryReveal();
-  }, 6000);
-
-  document.addEventListener('click', function autoPlay() {
-    if (!musicPlaying) {
-      music.play().then(() => {
-          var btn = document.getElementById('musicBtn');
-          var player = document.getElementById('musicPlayer');
-          btn.classList.add('playing');
-          player.classList.add('playing', 'expanded');
-          document.getElementById('iconPlay').style.display = 'none';
-          document.getElementById('iconPause').style.display = '';
-          musicPlaying = true;
-      }).catch(e => console.log("Audio autoplay prevented by browser"));
-    }
-    document.removeEventListener('click', autoPlay);
-  });
-</script>
-
+        // Pre-fill initial flowers so it's not empty at first
+        for(let i=0; i<8; i++) {
+            setTimeout(spawnFlower, i * 100);
+        }
+    </script>
 </body>
 </html>
