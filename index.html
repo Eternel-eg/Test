@@ -106,7 +106,7 @@
 
         @keyframes float {
             0%   { transform: translateY(0px)  rotate(0deg);  }
-            50%  { transform: translateY(-18px) rotate(1deg);  }
+            38%  { transform: translateY(-18px) rotate(1deg);  }
             100% { transform: translateY(0px)  rotate(-1deg); }
         }
 
@@ -114,13 +114,13 @@
         .overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.42);
+            background: transparent;
             z-index: 2;
         }
 
         .invitation-content {
             position: absolute;
-            top: 38%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -42%);
             z-index: 10;
@@ -354,6 +354,27 @@
             100%{ top: 110%; opacity: 0;   transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px)); }
         }
 
+        /* ── MUSIC STATUS LABEL ── */
+        #music-status {
+            position: fixed;
+            top: calc(clamp(14px, 3.5vh, 24px) + clamp(46px, 13vw, 56px) + 6px);
+            right: clamp(14px, 4vw, 24px);
+            z-index: 200;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.62rem;
+            letter-spacing: 1px;
+            text-align: center;
+            width: clamp(46px, 13vw, 56px);
+            color: rgba(230, 194, 122, 0.85);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            pointer-events: none;
+            transition: color 0.4s;
+        }
+
+        #music-status.error {
+            color: #ff8a8a;
+        }
+
         /* ── SAFE AREA (iPhone notch etc.) ── */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .nav-btn-primary,
@@ -420,9 +441,12 @@
         </svg>
     </button>
 
+    <!-- Music status hint -->
+    <div id="music-status">TAP ♪</div>
+
     <!-- Audio -->
-    <audio id="bg-music" loop>
-        <source src="Relaxing_Elegant___Romantic_Wedding_Instrumental_Music_Emotional_Wedding_Day_Background_Music_2__rgQEvk77hX4___mp3cut_net_.mp3" type="audio/mpeg">
+    <audio id="bg-music" loop preload="auto">
+        <source src="Relaxing Elegant.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -472,15 +496,36 @@
         const btn      = document.getElementById('music-btn');
         const iconPlay = document.getElementById('icon-play');
         const iconMute = document.getElementById('icon-mute');
+        const statusEl = document.getElementById('music-status');
         let   playing  = false;
 
+        // Set the src here so we can catch errors clearly
+        const MP3_FILENAME = 'Relaxing Elegant.mp3';
+        music.src    = MP3_FILENAME;
         music.volume = 0.5;
+
+        // ── Audio event listeners for feedback ──
+        music.addEventListener('canplaythrough', () => {
+            statusEl.textContent = 'TAP ♪';
+            statusEl.classList.remove('error');
+        });
+
+        music.addEventListener('error', () => {
+            statusEl.textContent = '✗ FILE?';
+            statusEl.classList.add('error');
+            btn.title = 'Audio file not found — check filename & folder';
+        });
+
+        music.addEventListener('waiting', () => {
+            statusEl.textContent = '...';
+        });
 
         function setPlaying(state) {
             playing = state;
             iconPlay.style.display = playing ? 'none'  : 'block';
             iconMute.style.display = playing ? 'block' : 'none';
             btn.classList.toggle('playing', playing);
+            statusEl.textContent   = playing ? '▐▐ ON'  : 'TAP ♪';
         }
 
         btn.addEventListener('click', () => {
@@ -488,9 +533,15 @@
                 music.pause();
                 setPlaying(false);
             } else {
+                // Load first if not loaded, then play
+                if (music.readyState === 0) music.load();
                 music.play()
                     .then(() => setPlaying(true))
-                    .catch(err => console.warn('Audio play blocked:', err));
+                    .catch(err => {
+                        console.error('Audio play failed:', err);
+                        statusEl.textContent = '✗ FILE?';
+                        statusEl.classList.add('error');
+                    });
             }
         });
     </script>
