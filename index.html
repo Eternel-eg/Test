@@ -8,16 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
+        *, *::before, *::after { box-sizing: border-box; }
+
+        :root {
+            --dgold: #B39256;
+            --lgold: #FCF6BA;
+            --mgold: #D4AF37;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
+            margin: 0; padding: 0;
+            width: 100vw; height: 100vh; height: 100dvh;
             overflow: hidden;
             background-color: #0a0a0a;
             font-family: sans-serif;
@@ -26,24 +27,19 @@
 
         /* ── BACKGROUNDS ── */
         .background {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
             z-index: 1;
             animation: bg-breathe 20s ease-in-out infinite alternate;
         }
-
         #page1 .background {
-            background-image: url('https://drive.google.com/thumbnail?id=19W5O94TRiV6O9tqIp3YDQ9cXbS1SjH8T&sz=s800');
+            background-image: url('https://drive.google.com/thumbnail?id=19W5O94TRiV6O9tqIp3YDQ9cXbS1SjH8T&sz=s1200');
         }
-
         #page2 .background {
-            background-image: url('https://drive.google.com/thumbnail?id=1SmQkVmYLza7hPl0dZ2Nge0D4xCyOhP6G&sz=s800');
+            background-image: url('https://drive.google.com/thumbnail?id=1SmQkVmYLza7hPl0dZ2Nge0D4xCyOhP6G&sz=s1200');
         }
-
         @keyframes bg-breathe {
             0%   { transform: scale(1); }
             100% { transform: scale(1.06); }
@@ -51,32 +47,20 @@
 
         /* ── PAGES ── */
         .page {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            visibility: hidden;
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            opacity: 0; visibility: hidden;
             transition: opacity 1.2s ease-in-out, visibility 1.2s;
             z-index: 1;
         }
+        .page.active { opacity: 1; visibility: visible; z-index: 2; }
 
-        .page.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 2;
-        }
-
-        /* ── PAGE 1 SCENE ── */
+        /* ── PAGE 1 SCENE — ZOOMED IN ── */
         .scene-container {
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-            pointer-events: none;
-            display: grid;
-            place-items: center;
+            position: absolute; inset: 0;
+            z-index: 5; pointer-events: none;
+            display: grid; place-items: center;
         }
-
         .item-wrapper {
             grid-area: 1 / 1;
             opacity: 0;
@@ -84,59 +68,47 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: clamp(160px, 55vw, 480px);
+            /* ZOOMED IN: was 55vw/480px, now much larger */
+            width: clamp(280px, 88vw, 820px);
         }
-
         .item-wrapper.show {
             animation: appear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
-
         .item-wrapper img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 100%; max-height: 100%;
             object-fit: contain;
             filter: drop-shadow(0px 12px 18px rgba(0,0,0,0.35));
             animation: float 4s ease-in-out infinite alternate;
         }
-
         @keyframes appear {
             0%   { opacity: 0; transform: scale(0.7) translateY(50px); }
             100% { opacity: 1; transform: scale(1)   translateY(0);    }
         }
-
         @keyframes float {
             0%   { transform: translateY(0px)  rotate(0deg);  }
-            30%  { transform: translateY(-18px) rotate(1deg);  }
+            50%  { transform: translateY(-18px) rotate(1deg);  }
             100% { transform: translateY(0px)  rotate(-1deg); }
         }
 
         /* ── PAGE 2 INVITATION ── */
         .overlay {
-            position: absolute;
-            inset: 0;
-            background: transparent;
-            z-index: 2;
+            position: absolute; inset: 0;
+            background: transparent; z-index: 2;
         }
-
         .invitation-content {
             position: absolute;
-            top: 35%;
-            left: 50%;
+            top: 35%; left: 50%;
             transform: translate(-50%, -42%);
-            z-index: 10;
-            text-align: center;
-            width: 92%;
-            max-width: 600px;
+            z-index: 10; text-align: center;
+            width: 92%; max-width: 600px;
             opacity: 0;
             transition: all 1.5s ease 0.5s;
             padding: 0 12px;
         }
-
         .page.active .invitation-content {
             opacity: 1;
             transform: translate(-50%, -50%);
         }
-
         .small-text {
             font-family: 'Playfair Display', serif;
             font-size: clamp(0.95rem, 3.8vw, 2rem);
@@ -147,18 +119,15 @@
             text-shadow: 0px 2px 4px rgba(0,0,0,0.7);
             animation: text-pulse 4s ease-in-out infinite alternate;
         }
-
         @keyframes text-pulse {
             0%   { opacity: 0.85; text-shadow: 0px 2px 4px  rgba(0,0,0,0.7); }
             100% { opacity: 1;    text-shadow: 0px 2px 14px rgba(230,194,122,0.5); }
         }
-
         .names {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(5.2rem, 15vw, 10rem);
             margin: clamp(4px, 1.5vw, 12px) 0;
-            font-weight: normal;
-            line-height: 1.1;
+            font-weight: normal; line-height: 1.1;
             background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #BF953F);
             background-size: 200% auto;
             color: #D4AF37;
@@ -168,40 +137,31 @@
             animation: gold-shimmer 5s infinite linear;
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
         }
-
-        @keyframes gold-shimmer {
-            to { background-position: 200% center; }
-        }
-
+        @keyframes gold-shimmer { to { background-position: 200% center; } }
         .names .ampersand {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 7vw, 5rem);
-            display: block;
-            margin: -4px 0;
+            display: block; margin: -4px 0;
             -webkit-text-fill-color: #FFF2CD;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        /* ── VIEW INVITATION BUTTON — Gold Elegant ── */
+        /* ── VIEW INVITATION BUTTON ── */
         .nav-btn-primary {
             position: absolute;
             bottom: clamp(20px, 7vh, 55px);
-            left: 50%;
-            transform: translateX(-50%);
+            left: 50%; transform: translateX(-50%);
             z-index: 20;
             padding: clamp(13px, 2.5vh, 17px) clamp(32px, 8vw, 56px);
             background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #D4AF37 60%, #BF953F 100%);
             background-size: 200% auto;
-            border: none;
-            color: #3a2600;
+            border: none; color: #3a2600;
             font-family: 'Playfair Display', serif;
             font-size: clamp(0.85rem, 3.5vw, 1.05rem);
             font-weight: 600;
             letter-spacing: clamp(2px, 1vw, 4px);
-            border-radius: 50px;
-            cursor: pointer;
-            text-transform: uppercase;
-            white-space: nowrap;
+            border-radius: 50px; cursor: pointer;
+            text-transform: uppercase; white-space: nowrap;
             animation: btn-shimmer 3s infinite linear;
             box-shadow:
                 0 0 0 1px rgba(212,175,55,0.6),
@@ -210,25 +170,17 @@
                 inset 0 1px 0 rgba(255,255,255,0.4);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-
         .nav-btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
+            content: ''; position: absolute; inset: -3px;
             border-radius: 54px;
             background: linear-gradient(135deg, #FCF6BA, #BF953F, #FCF6BA);
-            z-index: -1;
-            opacity: 0.5;
-            filter: blur(7px);
+            z-index: -1; opacity: 0.5; filter: blur(7px);
         }
-
         @keyframes btn-shimmer {
             0%   { background-position: 0%   center; }
             100% { background-position: 200% center; }
         }
-
-        .nav-btn-primary:hover,
-        .nav-btn-primary:active {
+        .nav-btn-primary:hover, .nav-btn-primary:active {
             transform: translateX(-50%) scale(1.06);
             box-shadow:
                 0 0 0 1px rgba(252,246,186,0.8),
@@ -241,112 +193,55 @@
         .nav-btn-back {
             position: absolute;
             bottom: clamp(20px, 7vh, 55px);
-            left: 50%;
-            transform: translateX(-50%);
+            left: 50%; transform: translateX(-50%);
             z-index: 20;
             padding: clamp(11px, 2.2vh, 15px) clamp(28px, 7vw, 48px);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             border: 1px solid rgba(212,175,55,0.45);
             color: #E6C27A;
             font-family: 'Playfair Display', serif;
             font-size: clamp(0.8rem, 3.2vw, 0.95rem);
-            letter-spacing: 3px;
-            border-radius: 50px;
+            letter-spacing: 3px; border-radius: 50px;
             cursor: pointer;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            text-transform: uppercase;
-            white-space: nowrap;
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            text-transform: uppercase; white-space: nowrap;
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-
-        .nav-btn-back:hover,
-        .nav-btn-back:active {
+        .nav-btn-back:hover, .nav-btn-back:active {
             background: rgba(212,175,55,0.18);
             border-color: rgba(212,175,55,0.8);
             transform: translateX(-50%) scale(1.04);
         }
 
         /* ── MUSIC BUTTON ── */
-        #music-btn {
-            position: fixed;
-            top: clamp(14px, 3.5vh, 24px);
-            right: clamp(14px, 4vw, 24px);
-            z-index: 200;
-            width: clamp(46px, 13vw, 56px);
-            height: clamp(46px, 13vw, 56px);
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(145deg, #9a7b1e, #D4AF37 35%, #FCF6BA 55%, #BF953F 80%, #7a5c10);
-            background-size: 200% 200%;
-            animation: music-btn-shine 3s ease infinite alternate;
-            box-shadow:
-                0 0 0 1px rgba(252,246,186,0.45),
-                0 0 18px rgba(212,175,55,0.6),
-                0 4px 16px rgba(0,0,0,0.55),
-                inset 0 1px 0 rgba(255,255,255,0.4);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        #musicBtn {
+            position: fixed; bottom: 22px; right: 22px; z-index: 9998;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(255,255,255,0.18); border: 1px solid var(--dgold);
+            color: var(--dgold); font-size: 1.3rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(6px); transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
         }
-
-        #music-btn:hover,
-        #music-btn:active {
-            transform: scale(1.1);
-            box-shadow:
-                0 0 0 1px rgba(252,246,186,0.8),
-                0 0 28px rgba(212,175,55,0.85),
-                0 6px 20px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-        }
-
-        @keyframes music-btn-shine {
-            0%   { background-position: 0% 0%;     }
-            100% { background-position: 100% 100%; }
-        }
-
-        #music-btn svg {
-            width: clamp(20px, 5.5vw, 24px);
-            height: clamp(20px, 5.5vw, 24px);
-            fill: #2a1a00;
-            flex-shrink: 0;
-        }
-
-        /* Ripple when playing */
-        #music-btn.playing::after {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 2px solid rgba(212,175,55,0.55);
-            animation: ripple-pulse 1.8s ease-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes ripple-pulse {
-            0%   { transform: scale(1);    opacity: 0.9; }
-            100% { transform: scale(1.6);  opacity: 0;   }
+        #musicBtn:hover { background: var(--dgold); color: #fff; transform: scale(1.08); box-shadow: 0 4px 20px rgba(179,146,86,0.5); }
+        #musicBtn .music-note { display: inline-block; transition: opacity 0.2s; }
+        #musicBtn.playing .music-note { animation: noteBounce 1.2s ease-in-out infinite; }
+        @keyframes noteBounce {
+            0%,100% { transform: translateY(0) rotate(-5deg); }
+            50%      { transform: translateY(-4px) rotate(5deg); }
         }
 
         /* ── FLOWER RAIN ── */
         #rain-container {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            pointer-events: none;
+            position: fixed; inset: 0;
+            z-index: 50; pointer-events: none;
         }
-
         .flower {
-            position: absolute;
-            top: -10%;
-            opacity: 0;
-            will-change: transform, opacity;
+            position: absolute; top: -10%;
+            opacity: 0; will-change: transform, opacity;
             animation: fall linear forwards;
         }
-
         @keyframes fall {
             0%  { top: -10%; opacity: 0;   transform: rotate(0deg) translateX(0px); }
             10% { opacity: 0.75; }
@@ -354,36 +249,14 @@
             100%{ top: 110%; opacity: 0;   transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px)); }
         }
 
-        /* ── MUSIC STATUS LABEL ── */
-        #music-status {
-            position: fixed;
-            top: calc(clamp(14px, 3.5vh, 24px) + clamp(46px, 13vw, 56px) + 6px);
-            right: clamp(14px, 4vw, 24px);
-            z-index: 200;
-            font-family: 'Playfair Display', serif;
-            font-size: 0.62rem;
-            letter-spacing: 1px;
-            text-align: center;
-            width: clamp(46px, 13vw, 56px);
-            color: rgba(230, 194, 122, 0.85);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-            pointer-events: none;
-            transition: color 0.4s;
-        }
-
-        #music-status.error {
-            color: #ff8a8a;
-        }
-
-        /* ── SAFE AREA (iPhone notch etc.) ── */
+        /* ── SAFE AREA ── */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            .nav-btn-primary,
-            .nav-btn-back {
+            .nav-btn-primary, .nav-btn-back {
                 bottom: max(clamp(20px, 7vh, 55px), calc(env(safe-area-inset-bottom) + 14px));
             }
-            #music-btn {
-                top: max(clamp(14px, 3.5vh, 24px), calc(env(safe-area-inset-top) + 10px));
-                right: max(clamp(14px, 4vw, 24px), calc(env(safe-area-inset-right) + 10px));
+            #musicBtn {
+                bottom: max(22px, calc(env(safe-area-inset-bottom) + 14px));
+                right:  max(22px, calc(env(safe-area-inset-right)  + 14px));
             }
         }
     </style>
@@ -393,22 +266,20 @@
     <!-- PAGE 1 -->
     <div id="page1" class="page active">
         <div class="background"></div>
-
         <div class="scene-container">
             <div class="item-wrapper" id="item1">
-                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s800" alt="Scene Item 1" style="animation-delay:0s;">
+                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s1200" alt="Scene Item 1" style="animation-delay:0s;">
             </div>
             <div class="item-wrapper" id="item2">
-                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s800" alt="Scene Item 2" style="animation-delay:-1.5s;">
+                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s1200" alt="Scene Item 2" style="animation-delay:-1.5s;">
             </div>
             <div class="item-wrapper" id="item3">
-                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s800" alt="Scene Item 3" style="animation-delay:-3s;">
+                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s1200" alt="Scene Item 3" style="animation-delay:-3s;">
             </div>
             <div class="item-wrapper" id="item4">
-                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s800" alt="Scene Item 4" style="animation-delay:-4.5s;">
+                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s1200" alt="Scene Item 4" style="animation-delay:-4.5s;">
             </div>
         </div>
-
         <button id="goToPage2" class="nav-btn-primary">View Invitation</button>
     </div>
 
@@ -416,38 +287,26 @@
     <div id="page2" class="page">
         <div class="background"></div>
         <div class="overlay"></div>
-
         <div class="invitation-content">
             <p class="small-text">Together with their families</p>
             <h1 class="names">Tahany <span class="ampersand">&</span> Ahmed</h1>
             <p class="small-text">Invite you to join them<br>for their wedding day</p>
         </div>
-
         <button id="goToPage1" class="nav-btn-back">← Back</button>
     </div>
 
     <!-- Flower Rain -->
     <div id="rain-container"></div>
 
-    <!-- Gold Music Toggle Button -->
-    <button id="music-btn" title="Toggle Music" aria-label="Toggle music">
-        <!-- Music note icon (shown when paused) -->
-        <svg id="icon-play" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 3v11.58A4 4 0 1 0 11 18V7h4V3H9zm-2 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-        </svg>
-        <!-- Muted icon (shown when playing) -->
-        <svg id="icon-mute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-            <path d="M9 3v11.58A4 4 0 1 0 11 18V7h4V3H9zm-2 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM3.41 2L2 3.41l18.59 18.6L22 20.59 3.41 2z"/>
-        </svg>
-    </button>
-
-    <!-- Music status hint -->
-    <div id="music-status">TAP ♪</div>
-
     <!-- Audio -->
-    <audio id="bg-music" loop preload="auto">
+    <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Music Button -->
+    <button id="musicBtn" onclick="toggleMusic()" title="Play music">
+        <span class="music-note">♪</span>
+    </button>
 
     <script>
         // ── Navigation ──
@@ -455,7 +314,6 @@
             document.getElementById('page1').classList.remove('active');
             document.getElementById('page2').classList.add('active');
         });
-
         document.getElementById('goToPage1').addEventListener('click', () => {
             document.getElementById('page2').classList.remove('active');
             document.getElementById('page1').classList.add('active');
@@ -469,81 +327,56 @@
         // ── Flower rain ──
         const rainContainer = document.getElementById('rain-container');
         const rainUrl = 'https://drive.google.com/thumbnail?id=1tneiar3mdst9bCMnoEcAfoPD8iSk4OkK&sz=s800';
-
         function spawnFlower() {
-            const f        = document.createElement('img');
-            f.src          = rainUrl;
-            f.classList.add('flower');
-            const size     = Math.random() * 22 + 12;
+            const f = document.createElement('img');
+            f.src = rainUrl; f.classList.add('flower');
+            const size = Math.random() * 22 + 12;
             const duration = Math.random() * 5 + 6;
-            const delay    = Math.random() * 2;
-            const rotDir   = Math.random() > 0.5 ? 1 : -1;
-            f.style.width             = `${size}px`;
-            f.style.left              = `${Math.random() * 100}vw`;
+            const delay = Math.random() * 2;
+            const rotDir = Math.random() > 0.5 ? 1 : -1;
+            f.style.width = `${size}px`;
+            f.style.left  = `${Math.random() * 100}vw`;
             f.style.animationDuration = `${duration}s`;
             f.style.animationDelay    = `${delay}s`;
-            f.style.setProperty('--rot-end', `${rotDir * (360 + Math.random() * 360)}deg`);
-            f.style.setProperty('--x-drift', `${(Math.random() - 0.5) * 140}px`);
+            f.style.setProperty('--rot-end',  `${rotDir * (360 + Math.random() * 360)}deg`);
+            f.style.setProperty('--x-drift',  `${(Math.random() - 0.5) * 140}px`);
             rainContainer.appendChild(f);
             setTimeout(() => f.parentNode && f.remove(), (duration + delay) * 1000);
         }
-
         setInterval(spawnFlower, 300);
         for (let i = 0; i < 8; i++) setTimeout(spawnFlower, i * 100);
 
-        // ── Music toggle ──
-        const music    = document.getElementById('bg-music');
-        const btn      = document.getElementById('music-btn');
-        const iconPlay = document.getElementById('icon-play');
-        const iconMute = document.getElementById('icon-mute');
-        const statusEl = document.getElementById('music-status');
-        let   playing  = false;
+        // ── Music ──
+        const music    = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
 
-        // Set the src here so we can catch errors clearly
-        const MP3_FILENAME = 'music.mp3';
-        music.src    = MP3_FILENAME;
-        music.volume = 0.5;
-
-        // ── Audio event listeners for feedback ──
-        music.addEventListener('canplaythrough', () => {
-            statusEl.textContent = 'TAP ♪';
-            statusEl.classList.remove('error');
-        });
-
-        music.addEventListener('error', () => {
-            statusEl.textContent = '✗ FILE?';
-            statusEl.classList.add('error');
-            btn.title = 'Audio file not found — check filename & folder';
-        });
-
-        music.addEventListener('waiting', () => {
-            statusEl.textContent = '...';
-        });
-
-        function setPlaying(state) {
-            playing = state;
-            iconPlay.style.display = playing ? 'none'  : 'block';
-            iconMute.style.display = playing ? 'block' : 'none';
-            btn.classList.toggle('playing', playing);
-            statusEl.textContent   = playing ? '▐▐ ON'  : 'TAP ♪';
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    musicBtn.title = 'Pause music';
+                }).catch(e => console.warn('Play failed:', e));
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.title = 'Play music';
+            }
         }
 
-        btn.addEventListener('click', () => {
-            if (playing) {
-                music.pause();
-                setPlaying(false);
-            } else {
-                // Load first if not loaded, then play
-                if (music.readyState === 0) music.load();
-                music.play()
-                    .then(() => setPlaying(true))
-                    .catch(err => {
-                        console.error('Audio play failed:', err);
-                        statusEl.textContent = '✗ FILE?';
-                        statusEl.classList.add('error');
-                    });
-            }
-        });
+        // Try autoplay on first any-touch/click anywhere on the page
+        function tryAutoplay() {
+            music.volume = 0.5;
+            music.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicBtn.title = 'Pause music';
+            }).catch(() => {
+                // Autoplay blocked — user must tap the button manually, that's fine
+            });
+            document.removeEventListener('click',      tryAutoplay);
+            document.removeEventListener('touchstart', tryAutoplay);
+        }
+        document.addEventListener('click',      tryAutoplay, { once: true });
+        document.addEventListener('touchstart', tryAutoplay, { once: true });
     </script>
 </body>
 </html>
