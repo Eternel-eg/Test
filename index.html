@@ -16,24 +16,20 @@
   <section id="page-loading" class="page active">
     <div class="loading-bg"></div>
     <div class="particles" id="particles"></div>
-
     <div class="loading-content">
       <div class="crest-wrapper">
         <div class="crest-glow"></div>
-        <img
-          id="crest-img"
-          src="Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png"
-          alt="Royal Crest"
-          class="crest-img"
-        />
+        <img id="crest-img" src="Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png" alt="Royal Crest" class="crest-img" />
       </div>
-
       <div class="loading-text">
-        <p class="loading-tagline en-text">You are cordially invited</p>
-        <p class="loading-tagline ar-text">يسعدنا دعوتكم</p>
+        <p class="loading-tagline en-text">Together with their families</p>
+        <p class="loading-tagline ar-text">بمشاركة عائلتيهما</p>
+        <p class="loading-names en-text">Nancy &amp; Khaled</p>
+        <p class="loading-names ar-text">نانسي وخالد</p>
+        <p class="loading-sub en-text">invite you to celebrate their wedding</p>
+        <p class="loading-sub ar-text">يدعوانكم للاحتفال بزفافهما</p>
         <div class="loading-divider"><span></span><div class="diamond">◆</div><span></span></div>
       </div>
-
       <div class="loading-bar-wrap">
         <div class="loading-bar" id="loading-bar"></div>
       </div>
@@ -44,29 +40,37 @@
   <!-- PAGE 2 · DOOR SCENE                            -->
   <!-- ═══════════════════════════════════════════════ -->
   <section id="page-door" class="page">
+
+    <!-- Static door image — always visible as background -->
+    <div class="door-static-bg"></div>
+
+    <!-- Animated GIF — injected by JS on knock, fades over static -->
     <div class="door-bg-wrap">
-      <img
-        id="door-gif"
-        src="Subtle_Animated_Image_Creation-ezgif.com-video-to-gif-converter.gif"
-        alt="Royal Door"
-        class="door-gif"
-      />
+      <img id="door-gif" class="door-gif" alt="Royal Door" />
       <div class="door-overlay" id="door-overlay"></div>
       <div class="door-glow-ring" id="door-glow-ring"></div>
     </div>
 
     <div class="door-top-text">
-      <p class="door-subtitle en-text">A Royal Invitation Awaits</p>
-      <p class="door-subtitle ar-text">دعوة ملكية بانتظاركم</p>
+      <p class="door-pre en-text">Together with their families</p>
+      <p class="door-pre ar-text">بمشاركة عائلتيهما</p>
+      <p class="door-names-hero">Nancy <span class="amp-hero">&amp;</span> Khaled</p>
+      <p class="door-names-hero ar-text" style="font-family:'Amiri',serif">نانسي <span class="amp-hero">&amp;</span> خالد</p>
+      <p class="door-subtitle en-text">invite you to open the door to their celebration</p>
+      <p class="door-subtitle ar-text">يدعوانكم لفتح باب الاحتفال</p>
     </div>
 
-    <div class="knock-btn-wrap">
-      <button id="knock-btn" class="knock-btn">
-        <span class="knock-icon">🔔</span>
-        <span class="en-text">Knock</span>
-        <span class="ar-text">إطرق</span>
-      </button>
-    </div>
+    <!--
+      ╔═══════════════════════════════════════════╗
+      ║  KNOCK BUTTON POSITION                   ║
+      ║  Edit --btn-left / --btn-top in CSS      ║
+      ╚═══════════════════════════════════════════╝
+    -->
+    <button id="knock-btn" class="knock-btn" aria-label="Knock">
+      <span class="knock-emoji">🚪</span>
+      <span class="knock-label en-text">Knock</span>
+      <span class="knock-label ar-text">إطرق</span>
+    </button>
 
     <div class="lang-toggle-wrap door-lang">
       <button id="lang-btn-door" class="lang-btn">العربية / EN</button>
@@ -77,19 +81,23 @@
   <!-- PAGE 3 · WEDDING DETAILS + RSVP               -->
   <!-- ═══════════════════════════════════════════════ -->
   <section id="page-details" class="page">
+    <!-- image2.png as full background -->
     <div class="details-bg"></div>
     <div class="petals-wrap" id="petals"></div>
 
-    <!-- Language Toggle -->
     <div class="lang-toggle-wrap details-lang">
       <button id="lang-btn-details" class="lang-btn">العربية / EN</button>
     </div>
 
-    <!-- Hero Names -->
+    <!-- Hero Invitation Text -->
     <div class="details-hero">
       <div class="hero-crest-mini">
         <img src="Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png" alt="Crest" />
       </div>
+
+      <p class="invite-pre en-text">Together with their families</p>
+      <p class="invite-pre ar-text">بمشاركة عائلتيهما</p>
+
       <div class="hero-names">
         <span class="name-left en-text">Nancy</span>
         <span class="name-left ar-text">نانسي</span>
@@ -97,12 +105,21 @@
         <span class="name-right en-text">Khaled</span>
         <span class="name-right ar-text">خالد</span>
       </div>
+
+      <p class="invite-body en-text">
+        invite you to the celebration of their wedding
+      </p>
+      <p class="invite-body ar-text">
+        يدعوانكم للاحتفال بزفافهما
+      </p>
+
       <div class="ornament-line"><span></span><div class="diamond-sm">◆</div><span></span></div>
+
       <p class="hero-event en-text">Wedding Ceremony</p>
       <p class="hero-event ar-text">حفل الزفاف</p>
     </div>
 
-    <!-- Event Details Cards -->
+    <!-- Event Detail Cards -->
     <div class="details-cards">
       <div class="detail-card" style="--delay:.1s">
         <div class="card-icon">📅</div>
@@ -123,20 +140,19 @@
         <div class="card-label ar-text">المكان</div>
         <div class="card-value en-text">The Westin Cairo Golf Resort</div>
         <div class="card-value ar-text">ويستن كايرو جولف ريزورت</div>
-        <a
-          href="https://maps.google.com/?q=The+Westin+Cairo+Golf+Resort"
-          target="_blank"
-          class="map-btn"
-        >
+        <a href="https://maps.google.com/?q=The+Westin+Cairo+Golf+Resort" target="_blank" class="map-btn">
           <span class="en-text">🗺 View Location</span>
           <span class="ar-text">🗺 عرض الموقع</span>
         </a>
       </div>
     </div>
 
-    <!-- Divider -->
+    <!-- RSVP Divider -->
     <div class="section-divider">
-      <span></span><span class="div-text en-text">RSVP</span><span class="div-text ar-text">تأكيد الحضور</span><span></span>
+      <span></span>
+      <span class="div-text en-text">RSVP</span>
+      <span class="div-text ar-text">تأكيد الحضور</span>
+      <span></span>
     </div>
 
     <!-- RSVP Form -->
@@ -145,16 +161,8 @@
         <div class="form-group">
           <label class="en-text" for="rsvp-name">Full Name</label>
           <label class="ar-text" for="rsvp-name">الاسم الكامل</label>
-          <input
-            type="text"
-            id="rsvp-name"
-            class="form-input"
-            placeholder="Your name..."
-            data-ar-placeholder="اسمك..."
-            required
-          />
+          <input type="text" id="rsvp-name" class="form-input" placeholder="Your name..." required />
         </div>
-
         <div class="form-group">
           <label class="en-text">Attendance</label>
           <label class="ar-text">الحضور</label>
@@ -168,24 +176,16 @@
             <label class="radio-label">
               <input type="radio" name="attend" value="no" />
               <span class="radio-custom"></span>
-              <span class="en-text">Regretfully unable</span>
-              <span class="ar-text">آسف، لن أتمكن</span>
+              <span class="en-text">Regretfully unable to attend</span>
+              <span class="ar-text">آسف، لن أتمكن من الحضور</span>
             </label>
           </div>
         </div>
-
         <div class="form-group">
           <label class="en-text" for="rsvp-msg">Message <em>(optional)</em></label>
           <label class="ar-text" for="rsvp-msg">رسالة <em>(اختياري)</em></label>
-          <textarea
-            id="rsvp-msg"
-            class="form-input"
-            rows="3"
-            placeholder="Your warm wishes..."
-            data-ar-placeholder="أمنياتك الطيبة..."
-          ></textarea>
+          <textarea id="rsvp-msg" class="form-input" rows="3" placeholder="Your warm wishes..."></textarea>
         </div>
-
         <button type="submit" class="rsvp-submit">
           <span class="en-text">✉ Send RSVP</span>
           <span class="ar-text">✉ إرسال</span>
@@ -199,22 +199,15 @@
       </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="ornament-line"><span></span><div class="diamond-sm">◆</div><span></span></div>
-      <p class="footer-text en-text">Nancy &amp; Khaled · October 2026</p>
-      <p class="footer-text ar-text">نانسي وخالد · أكتوبر ٢٠٢٦</p>
+      <p class="footer-text en-text">Nancy &amp; Khaled · October 11, 2026</p>
+      <p class="footer-text ar-text">نانسي وخالد · ١١ أكتوبر ٢٠٢٦</p>
     </footer>
   </section>
 
-  <!-- AUDIO -->
-  <audio id="music1" loop>
-    <source src="music1.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="music2" loop>
-    <source src="music2.mp3" type="audio/mpeg" />
-  </audio>
-
+  <audio id="music1" loop><source src="music1.mp3" type="audio/mpeg" /></audio>
+  <audio id="music2" loop><source src="music2.mp3" type="audio/mpeg" /></audio>
   <script src="script.js"></script>
 </body>
 </html>

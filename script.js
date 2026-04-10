@@ -10,6 +10,12 @@ let currentLang  = 'en';
 let loadProgress = 0;
 let doorPlayed   = false;
 
+/* ── GIF SOURCE ─────────────────────────────────
+   Stored here, NOT set on <img> until knock click.
+   The GIF cannot play if src is empty.
+   ─────────────────────────────────────────────── */
+const GIF_SRC = 'image1.gif';
+
 /* ── DOM REFS ── */
 const pageLoading  = document.getElementById('page-loading');
 const pageDoor     = document.getElementById('page-door');
@@ -31,7 +37,7 @@ const petalsWrap   = document.getElementById('petals');
 /* ════ PARTICLES ═════════════════════════════════ */
 function spawnParticles () {
   for (let i = 0; i < 22; i++) {
-    const p    = document.createElement('div');
+    const p     = document.createElement('div');
     p.className = 'particle';
     const size  = Math.random() * 6 + 2;
     p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*10}s;`;
@@ -43,7 +49,7 @@ function spawnParticles () {
 function spawnPetals () {
   petalsWrap.innerHTML = '';
   for (let i = 0; i < 18; i++) {
-    const p    = document.createElement('div');
+    const p     = document.createElement('div');
     p.className = 'petal';
     const size  = Math.random() * 8 + 4;
     p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*18+12}s;animation-delay:${Math.random()*14}s;`;
@@ -65,15 +71,19 @@ function animateBar (target, duration) {
 }
 function easeInOut (t) { return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
 
-/* ════ PRELOAD GIF ═══════════════════════════════ */
+/* ════ PRELOAD GIF IN BACKGROUND ════════════════
+   Preload into memory so it starts instantly on
+   knock, but never set doorGif.src until then.
+   ════════════════════════════════════════════════ */
+let gifPreloaded = false;
 function preloadGif () {
   return new Promise(resolve => {
     animateBar(70, 1800);
     const img   = new Image();
-    img.onload  = () => resolve();
+    img.onload  = () => { gifPreloaded = true; resolve(); };
     img.onerror = () => resolve();
-    img.src     = doorGif.getAttribute('src');
-    setTimeout(resolve, 4000);
+    img.src     = GIF_SRC;          // preload into browser cache only
+    setTimeout(resolve, 4000);      // max 4 s wait
   });
 }
 
@@ -97,44 +107,29 @@ function transitionToPage (fromPage, toPage, cb) {
   }, 900);
 }
 
-/* ════ DOOR SETUP ════════════════════════════════
-   The GIF is always playing underneath.
-   A near-opaque overlay hides it initially.
-   On knock we fade the overlay away.
-   ═════════════════════════════════════════════════ */
-function setupDoorScene () {
-  doorGif.style.display    = 'block';
-  doorGif.style.opacity    = '1';
-  doorGif.style.visibility = 'visible';
-
-  /* Heavy dark overlay masks the animation */
-  doorOverlay.style.background  = 'rgba(10,8,4,0.91)';
-  doorOverlay.style.transition  = 'opacity 2.2s ease';
-}
-
 /* ════ KNOCK → PLAY ══════════════════════════════ */
 function playDoor () {
   if (doorPlayed) return;
   doorPlayed = true;
 
-  /* Restart GIF from frame 1 */
-  const src    = doorGif.src;
-  doorGif.src  = '';
-  setTimeout(() => { doorGif.src = src; }, 40);
+  /* NOW load the GIF — starts playing immediately from frame 1 */
+  doorGif.src = GIF_SRC;
+  /* Fade GIF layer over the static door image */
+  document.querySelector(".door-bg-wrap").classList.add("revealed");
 
-  /* Fade overlay away to reveal GIF */
-  doorOverlay.style.opacity = '0.06';
+  /* Fade the dark overlay away */
+  doorOverlay.style.opacity = '0';
 
-  /* Glow ring */
+  /* Gold glow ring */
   doorGlowRing.classList.add('active');
 
   /* Music */
   tryPlayAudio(music1);
 
-  /* Disable button */
-  knockBtn.style.animation     = 'none';
-  knockBtn.style.opacity       = '0.45';
+  /* Hide button */
+  knockBtn.style.opacity       = '0';
   knockBtn.style.pointerEvents = 'none';
+  knockBtn.style.transform     = 'scale(0.8)';
 
   /* Go to details after 8 s */
   setTimeout(() => {
@@ -149,8 +144,8 @@ function playDoor () {
 
 /* ════ AUDIO ═════════════════════════════════════ */
 function tryPlayAudio (el) {
-  const src = el.querySelector('source') ? el.querySelector('source').src : el.src;
-  if (!src || src === window.location.href) return;
+  const src = el.querySelector('source')?.src || el.src || '';
+  if (!src || src === window.location.href || src.endsWith('/')) return;
   el.volume = 0;
   el.play().catch(() => {});
   fadeInMusic(el);
@@ -215,6 +210,7 @@ document.addEventListener('touchstart', () => {
 /* ════ INIT ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   pageLoading.classList.add('active');
-  setupDoorScene();
+  /* GIF has NO src yet — guaranteed frozen */
+  doorGif.removeAttribute('src');
   await runLoadingScreen();
 });
