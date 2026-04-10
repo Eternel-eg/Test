@@ -1,382 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Enchanting Animated Scene</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <style>
-        *, *::before, *::after { box-sizing: border-box; }
-
-        :root {
-            --dgold: #B39256;
-            --lgold: #FCF6BA;
-            --mgold: #D4AF37;
-        }
-
-        body, html {
-            margin: 0; padding: 0;
-            width: 100vw; height: 100vh; height: 100dvh;
-            overflow: hidden;
-            background-color: #0a0a0a;
-            font-family: sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* ── BACKGROUNDS ── */
-        .background {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            animation: bg-breathe 20s ease-in-out infinite alternate;
-        }
-        #page1 .background {
-            background-image: url('https://drive.google.com/thumbnail?id=19W5O94TRiV6O9tqIp3YDQ9cXbS1SjH8T&sz=s1200');
-        }
-        #page2 .background {
-            background-image: url('https://drive.google.com/thumbnail?id=1SmQkVmYLza7hPl0dZ2Nge0D4xCyOhP6G&sz=s1200');
-        }
-        @keyframes bg-breathe {
-            0%   { transform: scale(1); }
-            100% { transform: scale(1.06); }
-        }
-
-        /* ── PAGES ── */
-        .page {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-            opacity: 0; visibility: hidden;
-            transition: opacity 1.2s ease-in-out, visibility 1.2s;
-            z-index: 1;
-        }
-        .page.active { opacity: 1; visibility: visible; z-index: 2; }
-
-        /* ── PAGE 1 SCENE — ZOOMED IN ── */
-        .scene-container {
-            position: absolute; inset: 0;
-            z-index: 5; pointer-events: none;
-            display: grid; place-items: center;
-        }
-        .item-wrapper {
-            grid-area: 1 / 1;
-            opacity: 0;
-            transform: scale(0.8) translateY(30px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* ZOOMED IN: was 55vw/480px, now much larger */
-            width: clamp(280px, 88vw, 820px);
-        }
-        .item-wrapper.show {
-            animation: appear 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-        .item-wrapper img {
-            max-width: 100%; max-height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0px 12px 18px rgba(0,0,0,0.35));
-            animation: float 4s ease-in-out infinite alternate;
-        }
-        @keyframes appear {
-            0%   { opacity: 0; transform: scale(0.7) translateY(50px); }
-            100% { opacity: 1; transform: scale(1)   translateY(0);    }
-        }
-        @keyframes float {
-            0%   { transform: translateY(0px)  rotate(0deg);  }
-            50%  { transform: translateY(-18px) rotate(1deg);  }
-            100% { transform: translateY(0px)  rotate(-1deg); }
-        }
-
-        /* ── PAGE 2 INVITATION ── */
-        .overlay {
-            position: absolute; inset: 0;
-            background: transparent; z-index: 2;
-        }
-        .invitation-content {
-            position: absolute;
-            top: 35%; left: 50%;
-            transform: translate(-50%, -42%);
-            z-index: 10; text-align: center;
-            width: 92%; max-width: 600px;
-            opacity: 0;
-            transition: all 1.5s ease 0.5s;
-            padding: 0 12px;
-        }
-        .page.active .invitation-content {
-            opacity: 1;
-            transform: translate(-50%, -50%);
-        }
-        .small-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(0.95rem, 3.8vw, 2rem);
-            letter-spacing: 2px;
-            margin: clamp(12px, 3vw, 22px) 0;
-            line-height: 1.7;
-            color: #92714f;
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.7);
-            animation: text-pulse 4s ease-in-out infinite alternate;
-        }
-        @keyframes text-pulse {
-            0%   { opacity: 0.85; text-shadow: 0px 2px 4px  rgba(0,0,0,0.7); }
-            100% { opacity: 1;    text-shadow: 0px 2px 14px rgba(230,194,122,0.5); }
-        }
-        .names {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(5.2rem, 15vw, 10rem);
-            margin: clamp(4px, 1.5vw, 12px) 0;
-            font-weight: normal; line-height: 1.1;
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #BF953F);
-            background-size: 200% auto;
-            color: #D4AF37;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gold-shimmer 5s infinite linear;
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
-        }
-        @keyframes gold-shimmer { to { background-position: 200% center; } }
-        .names .ampersand {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 7vw, 5rem);
-            display: block; margin: -4px 0;
-            -webkit-text-fill-color: #FFF2CD;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        }
-
-        /* ── VIEW INVITATION BUTTON ── */
-        .nav-btn-primary {
-            position: absolute;
-            bottom: clamp(20px, 7vh, 55px);
-            left: 50%; transform: translateX(-50%);
-            z-index: 20;
-            padding: clamp(13px, 2.5vh, 17px) clamp(32px, 8vw, 56px);
-            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #D4AF37 60%, #BF953F 100%);
-            background-size: 200% auto;
-            border: none; color: #3a2600;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(0.85rem, 3.5vw, 1.05rem);
-            font-weight: 600;
-            letter-spacing: clamp(2px, 1vw, 4px);
-            border-radius: 50px; cursor: pointer;
-            text-transform: uppercase; white-space: nowrap;
-            animation: btn-shimmer 3s infinite linear;
-            box-shadow:
-                0 0 0 1px rgba(212,175,55,0.6),
-                0 0 18px rgba(212,175,55,0.4),
-                0 6px 24px rgba(0,0,0,0.45),
-                inset 0 1px 0 rgba(255,255,255,0.4);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .nav-btn-primary::before {
-            content: ''; position: absolute; inset: -3px;
-            border-radius: 54px;
-            background: linear-gradient(135deg, #FCF6BA, #BF953F, #FCF6BA);
-            z-index: -1; opacity: 0.5; filter: blur(7px);
-        }
-        @keyframes btn-shimmer {
-            0%   { background-position: 0%   center; }
-            100% { background-position: 200% center; }
-        }
-        .nav-btn-primary:hover, .nav-btn-primary:active {
-            transform: translateX(-50%) scale(1.06);
-            box-shadow:
-                0 0 0 1px rgba(252,246,186,0.8),
-                0 0 30px rgba(212,175,55,0.65),
-                0 8px 30px rgba(0,0,0,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-        }
-
-        /* ── BACK BUTTON ── */
-        .nav-btn-back {
-            position: absolute;
-            bottom: clamp(20px, 7vh, 55px);
-            left: 50%; transform: translateX(-50%);
-            z-index: 20;
-            padding: clamp(11px, 2.2vh, 15px) clamp(28px, 7vw, 48px);
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(212,175,55,0.45);
-            color: #E6C27A;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(0.8rem, 3.2vw, 0.95rem);
-            letter-spacing: 3px; border-radius: 50px;
-            cursor: pointer;
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            text-transform: uppercase; white-space: nowrap;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .nav-btn-back:hover, .nav-btn-back:active {
-            background: rgba(212,175,55,0.18);
-            border-color: rgba(212,175,55,0.8);
-            transform: translateX(-50%) scale(1.04);
-        }
-
-        /* ── MUSIC BUTTON ── */
-        #musicBtn {
-            position: fixed; top: 22px; right: 22px; z-index: 9998;
-            width: 48px; height: 48px; border-radius: 50%;
-            background: rgba(255,255,255,0.18); border: 1px solid var(--dgold);
-            color: var(--dgold); font-size: 1.3rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(6px); transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-        }
-        #musicBtn:hover { background: var(--dgold); color: #fff; transform: scale(1.08); box-shadow: 0 4px 20px rgba(179,146,86,0.5); }
-        #musicBtn .music-note { display: inline-block; transition: opacity 0.2s; }
-        #musicBtn.playing .music-note { animation: noteBounce 1.2s ease-in-out infinite; }
-        @keyframes noteBounce {
-            0%,100% { transform: translateY(0) rotate(-5deg); }
-            50%      { transform: translateY(-4px) rotate(5deg); }
-        }
-
-        /* ── FLOWER RAIN ── */
-        #rain-container {
-            position: fixed; inset: 0;
-            z-index: 50; pointer-events: none;
-        }
-        .flower {
-            position: absolute; top: -10%;
-            opacity: 0; will-change: transform, opacity;
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            0%  { top: -10%; opacity: 0;   transform: rotate(0deg) translateX(0px); }
-            10% { opacity: 0.75; }
-            80% { opacity: 0.75; }
-            100%{ top: 110%; opacity: 0;   transform: rotate(var(--rot-end, 360deg)) translateX(var(--x-drift, 50px)); }
-        }
-
-        /* ── SAFE AREA ── */
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            .nav-btn-primary, .nav-btn-back {
-                bottom: max(clamp(20px, 7vh, 55px), calc(env(safe-area-inset-bottom) + 14px));
-            }
-            #musicBtn {
-                top:   max(22px, calc(env(safe-area-inset-top)   + 14px));
-                right: max(22px, calc(env(safe-area-inset-right)  + 14px));
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Nancy & Khaled – Wedding Invitation</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-    <!-- PAGE 1 -->
-    <div id="page1" class="page active">
-        <div class="background"></div>
-        <div class="scene-container">
-            <div class="item-wrapper" id="item1">
-                <img src="https://drive.google.com/thumbnail?id=1SWwdezbPwzN7xGhUpDlhlrVOGXQ-Wjnq&sz=s1200" alt="Scene Item 1" style="animation-delay:0s;">
-            </div>
-            <div class="item-wrapper" id="item2">
-                <img src="https://drive.google.com/thumbnail?id=11fsB_A4G0fSu5_xMQ-pfzh7ZOrHVCbfF&sz=s1200" alt="Scene Item 2" style="animation-delay:-1.5s;">
-            </div>
-            <div class="item-wrapper" id="item3">
-                <img src="https://drive.google.com/thumbnail?id=1U2dC2g8ZSq1X61jSk2-KQlRQZVGmK1i2&sz=s1200" alt="Scene Item 3" style="animation-delay:-3s;">
-            </div>
-            <div class="item-wrapper" id="item4">
-                <img src="https://drive.google.com/thumbnail?id=1sTj01ZxL0jSR3JOHFfPDHUEVALXN9CRj&sz=s1200" alt="Scene Item 4" style="animation-delay:-4.5s;">
-            </div>
-        </div>
-        <button id="goToPage2" class="nav-btn-primary">View Invitation</button>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PAGE 1 · LOADING SCREEN                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="page-loading" class="page active">
+    <div class="loading-bg"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="loading-content">
+      <div class="crest-wrapper">
+        <div class="crest-glow"></div>
+        <img
+          id="crest-img"
+          src="Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png"
+          alt="Royal Crest"
+          class="crest-img"
+        />
+      </div>
+
+      <div class="loading-text">
+        <p class="loading-tagline en-text">You are cordially invited</p>
+        <p class="loading-tagline ar-text">يسعدنا دعوتكم</p>
+        <div class="loading-divider"><span></span><div class="diamond">◆</div><span></span></div>
+      </div>
+
+      <div class="loading-bar-wrap">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PAGE 2 · DOOR SCENE                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="page-door" class="page">
+    <div class="door-bg-wrap">
+      <img
+        id="door-gif"
+        src="Subtle_Animated_Image_Creation-ezgif_com-video-to-gif-converter.gif"
+        alt="Royal Door"
+        class="door-gif"
+      />
+      <div class="door-overlay" id="door-overlay"></div>
+      <div class="door-glow-ring" id="door-glow-ring"></div>
     </div>
 
-    <!-- PAGE 2 -->
-    <div id="page2" class="page">
-        <div class="background"></div>
-        <div class="overlay"></div>
-        <div class="invitation-content">
-            <p class="small-text">Together with their families</p>
-            <h1 class="names">Tahany <span class="ampersand">&</span> Ahmed</h1>
-            <p class="small-text">Invite you to join them<br>for their wedding day</p>
-        </div>
-        <button id="goToPage1" class="nav-btn-back">← Back</button>
+    <div class="door-top-text">
+      <p class="door-subtitle en-text">A Royal Invitation Awaits</p>
+      <p class="door-subtitle ar-text">دعوة ملكية بانتظاركم</p>
     </div>
 
-    <!-- Flower Rain -->
-    <div id="rain-container"></div>
+    <div class="knock-btn-wrap">
+      <button id="knock-btn" class="knock-btn">
+        <span class="knock-icon">🔔</span>
+        <span class="en-text">Knock</span>
+        <span class="ar-text">إطرق</span>
+      </button>
+    </div>
 
-    <!-- Audio -->
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <div class="lang-toggle-wrap door-lang">
+      <button id="lang-btn-door" class="lang-btn">العربية / EN</button>
+    </div>
+  </section>
 
-    <!-- Music Button -->
-    <button id="musicBtn" onclick="toggleMusic()" title="Play music">
-        <span class="music-note">♪</span>
-    </button>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PAGE 3 · WEDDING DETAILS + RSVP               -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="page-details" class="page">
+    <div class="details-bg"></div>
+    <div class="petals-wrap" id="petals"></div>
 
-    <script>
-        // ── Navigation ──
-        document.getElementById('goToPage2').addEventListener('click', () => {
-            document.getElementById('page1').classList.remove('active');
-            document.getElementById('page2').classList.add('active');
-        });
-        document.getElementById('goToPage1').addEventListener('click', () => {
-            document.getElementById('page2').classList.remove('active');
-            document.getElementById('page1').classList.add('active');
-        });
+    <!-- Language Toggle -->
+    <div class="lang-toggle-wrap details-lang">
+      <button id="lang-btn-details" class="lang-btn">العربية / EN</button>
+    </div>
 
-        // ── Sequential item appearances ──
-        document.querySelectorAll('.item-wrapper').forEach((item, i) => {
-            setTimeout(() => item.classList.add('show'), 800 + i * 600);
-        });
+    <!-- Hero Names -->
+    <div class="details-hero">
+      <div class="hero-crest-mini">
+        <img src="Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png" alt="Crest" />
+      </div>
+      <div class="hero-names">
+        <span class="name-left en-text">Nancy</span>
+        <span class="name-left ar-text">نانسي</span>
+        <span class="ampersand">&amp;</span>
+        <span class="name-right en-text">Khaled</span>
+        <span class="name-right ar-text">خالد</span>
+      </div>
+      <div class="ornament-line"><span></span><div class="diamond-sm">◆</div><span></span></div>
+      <p class="hero-event en-text">Wedding Ceremony</p>
+      <p class="hero-event ar-text">حفل الزفاف</p>
+    </div>
 
-        // ── Flower rain ──
-        const rainContainer = document.getElementById('rain-container');
-        const rainUrl = 'https://drive.google.com/thumbnail?id=1tneiar3mdst9bCMnoEcAfoPD8iSk4OkK&sz=s800';
-        function spawnFlower() {
-            const f = document.createElement('img');
-            f.src = rainUrl; f.classList.add('flower');
-            const size = Math.random() * 22 + 12;
-            const duration = Math.random() * 5 + 6;
-            const delay = Math.random() * 2;
-            const rotDir = Math.random() > 0.5 ? 1 : -1;
-            f.style.width = `${size}px`;
-            f.style.left  = `${Math.random() * 100}vw`;
-            f.style.animationDuration = `${duration}s`;
-            f.style.animationDelay    = `${delay}s`;
-            f.style.setProperty('--rot-end',  `${rotDir * (360 + Math.random() * 360)}deg`);
-            f.style.setProperty('--x-drift',  `${(Math.random() - 0.5) * 140}px`);
-            rainContainer.appendChild(f);
-            setTimeout(() => f.parentNode && f.remove(), (duration + delay) * 1000);
-        }
-        setInterval(spawnFlower, 300);
-        for (let i = 0; i < 8; i++) setTimeout(spawnFlower, i * 100);
+    <!-- Event Details Cards -->
+    <div class="details-cards">
+      <div class="detail-card" style="--delay:.1s">
+        <div class="card-icon">📅</div>
+        <div class="card-label en-text">Date</div>
+        <div class="card-label ar-text">التاريخ</div>
+        <div class="card-value en-text">October 11, 2026</div>
+        <div class="card-value ar-text">١١ أكتوبر ٢٠٢٦</div>
+      </div>
+      <div class="detail-card" style="--delay:.2s">
+        <div class="card-icon">🕖</div>
+        <div class="card-label en-text">Time</div>
+        <div class="card-label ar-text">الوقت</div>
+        <div class="card-value">19:00 – 23:00</div>
+      </div>
+      <div class="detail-card wide-card" style="--delay:.3s">
+        <div class="card-icon">🏛️</div>
+        <div class="card-label en-text">Venue</div>
+        <div class="card-label ar-text">المكان</div>
+        <div class="card-value en-text">The Westin Cairo Golf Resort</div>
+        <div class="card-value ar-text">ويستن كايرو جولف ريزورت</div>
+        <a
+          href="https://maps.google.com/?q=The+Westin+Cairo+Golf+Resort"
+          target="_blank"
+          class="map-btn"
+        >
+          <span class="en-text">🗺 View Location</span>
+          <span class="ar-text">🗺 عرض الموقع</span>
+        </a>
+      </div>
+    </div>
 
-        // ── Music ──
-        const music    = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
+    <!-- Divider -->
+    <div class="section-divider">
+      <span></span><span class="div-text en-text">RSVP</span><span class="div-text ar-text">تأكيد الحضور</span><span></span>
+    </div>
 
-        function toggleMusic() {
-            if (music.paused) {
-                music.play().then(() => {
-                    musicBtn.classList.add('playing');
-                    musicBtn.title = 'Pause music';
-                }).catch(e => console.warn('Play failed:', e));
-            } else {
-                music.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.title = 'Play music';
-            }
-        }
+    <!-- RSVP Form -->
+    <div class="rsvp-wrap">
+      <form id="rsvp-form" class="rsvp-form" onsubmit="handleRSVP(event)">
+        <div class="form-group">
+          <label class="en-text" for="rsvp-name">Full Name</label>
+          <label class="ar-text" for="rsvp-name">الاسم الكامل</label>
+          <input
+            type="text"
+            id="rsvp-name"
+            class="form-input"
+            placeholder="Your name..."
+            data-ar-placeholder="اسمك..."
+            required
+          />
+        </div>
 
-        // Try autoplay on first any-touch/click anywhere on the page
-        function tryAutoplay() {
-            music.volume = 0.5;
-            music.play().then(() => {
-                musicBtn.classList.add('playing');
-                musicBtn.title = 'Pause music';
-            }).catch(() => {
-                // Autoplay blocked — user must tap the button manually, that's fine
-            });
-            document.removeEventListener('click',      tryAutoplay);
-            document.removeEventListener('touchstart', tryAutoplay);
-        }
-        document.addEventListener('click',      tryAutoplay, { once: true });
-        document.addEventListener('touchstart', tryAutoplay, { once: true });
-    </script>
+        <div class="form-group">
+          <label class="en-text">Attendance</label>
+          <label class="ar-text">الحضور</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="attend" value="yes" />
+              <span class="radio-custom"></span>
+              <span class="en-text">Yes, I'll be there 🥂</span>
+              <span class="ar-text">نعم، سأحضر 🥂</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="attend" value="no" />
+              <span class="radio-custom"></span>
+              <span class="en-text">Regretfully unable</span>
+              <span class="ar-text">آسف، لن أتمكن</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="en-text" for="rsvp-msg">Message <em>(optional)</em></label>
+          <label class="ar-text" for="rsvp-msg">رسالة <em>(اختياري)</em></label>
+          <textarea
+            id="rsvp-msg"
+            class="form-input"
+            rows="3"
+            placeholder="Your warm wishes..."
+            data-ar-placeholder="أمنياتك الطيبة..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="rsvp-submit">
+          <span class="en-text">✉ Send RSVP</span>
+          <span class="ar-text">✉ إرسال</span>
+        </button>
+      </form>
+
+      <div id="rsvp-success" class="rsvp-success hidden">
+        <div class="success-icon">💌</div>
+        <p class="en-text">Thank you! We look forward to celebrating with you.</p>
+        <p class="ar-text">شكراً لك! نتطلع إلى الاحتفال معك.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="ornament-line"><span></span><div class="diamond-sm">◆</div><span></span></div>
+      <p class="footer-text en-text">Nancy &amp; Khaled · October 2026</p>
+      <p class="footer-text ar-text">نانسي وخالد · أكتوبر ٢٠٢٦</p>
+    </footer>
+  </section>
+
+  <!-- AUDIO -->
+  <audio id="music1" loop>
+    <source src="music1.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="music2" loop>
+    <source src="music2.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="script.js"></script>
 </body>
 </html>
