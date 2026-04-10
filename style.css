@@ -207,17 +207,33 @@ html[lang="ar"] .loading-sub { font-family: var(--font-arabic); font-style: norm
 
 /* Top text overlay */
 .door-top-text {
-  position: absolute; top: 5%; left: 50%; transform: translateX(-50%);
-  text-align: center; z-index: 5;
+  position: absolute; 
+  top: 5%; 
+  
+  /* Replaced 'left' and 'transform' with this bulletproof centering method */
+  left: 0; 
+  right: 0; 
+  margin: 0 auto; 
+  
+  text-align: center; 
+  z-index: 5;
   animation: fadeUp 1.5s ease .3s both;
   width: 90%;
 }
+
 .door-pre {
-  font-family: var(--font-italic); font-style: italic;
-  color: var(--gold-pale); font-size: clamp(11px,3vw,15px); letter-spacing: .18em;
+  font-family: var(--font-italic); 
+  font-style: italic;
+  color: var(--gold-pale); 
+  font-size: clamp(11px, 3vw, 15px); 
+  letter-spacing: .18em;
   text-shadow: 0 1px 8px rgba(0,0,0,.9);
 }
-html[lang="ar"] .door-pre { font-family: var(--font-arabic); font-style: normal; }
+
+html[lang="ar"] .door-pre { 
+  font-family: var(--font-arabic); 
+  font-style: normal; 
+}
 
 .door-names-hero {
   font-family: var(--font-display);
