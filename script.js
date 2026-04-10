@@ -5,13 +5,12 @@
 
 'use strict';
 
-/* ── STATE ────────────────────────────────────────── */
+/* ── STATE ── */
 let currentLang  = 'en';
-let gifLoaded    = false;
 let loadProgress = 0;
 let doorPlayed   = false;
 
-/* ── DOM REFS ─────────────────────────────────────── */
+/* ── DOM REFS ── */
 const pageLoading  = document.getElementById('page-loading');
 const pageDoor     = document.getElementById('page-door');
 const pageDetails  = document.getElementById('page-details');
@@ -29,50 +28,33 @@ const rsvpSuccess  = document.getElementById('rsvp-success');
 const particles    = document.getElementById('particles');
 const petalsWrap   = document.getElementById('petals');
 
-/* ════════════════════════════════════════════════
-   PARTICLES (loading screen)
-   ════════════════════════════════════════════════ */
+/* ════ PARTICLES ═════════════════════════════════ */
 function spawnParticles () {
   for (let i = 0; i < 22; i++) {
-    const p   = document.createElement('div');
+    const p    = document.createElement('div');
     p.className = 'particle';
-    const size = Math.random() * 6 + 2;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random() * 100}%;
-      animation-duration:${Math.random() * 12 + 8}s;
-      animation-delay:${Math.random() * 10}s;
-    `;
+    const size  = Math.random() * 6 + 2;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*10}s;`;
     particles.appendChild(p);
   }
 }
 
-/* ════════════════════════════════════════════════
-   PETALS (details page)
-   ════════════════════════════════════════════════ */
+/* ════ PETALS ════════════════════════════════════ */
 function spawnPetals () {
   petalsWrap.innerHTML = '';
   for (let i = 0; i < 18; i++) {
-    const p   = document.createElement('div');
+    const p    = document.createElement('div');
     p.className = 'petal';
-    const size = Math.random() * 8 + 4;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random() * 100}%;
-      animation-duration:${Math.random() * 18 + 12}s;
-      animation-delay:${Math.random() * 14}s;
-    `;
+    const size  = Math.random() * 8 + 4;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*18+12}s;animation-delay:${Math.random()*14}s;`;
     petalsWrap.appendChild(p);
   }
 }
 
-/* ════════════════════════════════════════════════
-   LOADING SCREEN LOGIC
-   ════════════════════════════════════════════════ */
+/* ════ LOADING BAR ═══════════════════════════════ */
 function animateBar (target, duration) {
   const start = performance.now();
   const from  = loadProgress;
-
   function step (now) {
     const t = Math.min((now - start) / duration, 1);
     loadProgress = from + (target - from) * easeInOut(t);
@@ -81,122 +63,80 @@ function animateBar (target, duration) {
   }
   requestAnimationFrame(step);
 }
+function easeInOut (t) { return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
 
-function easeInOut (t) {
-  return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-}
-
-/* Preload GIF */
+/* ════ PRELOAD GIF ═══════════════════════════════ */
 function preloadGif () {
   return new Promise(resolve => {
-    // Animate bar to 70% while gif loads
     animateBar(70, 1800);
-
-    const img = new Image();
-    img.onload = () => {
-      gifLoaded = true;
-      resolve();
-    };
-    img.onerror = resolve; // continue even on error
-    img.src = doorGif.src;
-
-    // Fallback: proceed after 4s regardless
+    const img   = new Image();
+    img.onload  = () => resolve();
+    img.onerror = () => resolve();
+    img.src     = doorGif.getAttribute('src');
     setTimeout(resolve, 4000);
   });
 }
 
+/* ════ LOADING SCREEN ════════════════════════════ */
 async function runLoadingScreen () {
-  // Simulate initial progress
   animateBar(30, 800);
   spawnParticles();
-
-  // Wait minimum display time + gif load
-  await Promise.all([
-    preloadGif(),
-    new Promise(r => setTimeout(r, 2200))
-  ]);
-
-  // Complete bar
+  await Promise.all([preloadGif(), new Promise(r => setTimeout(r, 2200))]);
   animateBar(100, 500);
   await new Promise(r => setTimeout(r, 600));
-
-  // Transition to door
   transitionToPage(pageLoading, pageDoor);
 }
 
-/* ════════════════════════════════════════════════
-   PAGE TRANSITIONS
-   ════════════════════════════════════════════════ */
+/* ════ PAGE TRANSITIONS ══════════════════════════ */
 function transitionToPage (fromPage, toPage, cb) {
   fromPage.classList.add('fade-out');
   setTimeout(() => {
-    fromPage.classList.remove('active', 'fade-out');
+    fromPage.classList.remove('active','fade-out');
     toPage.classList.add('active');
     if (cb) cb();
   }, 900);
 }
 
-/* ════════════════════════════════════════════════
-   DOOR SCENE
-   ════════════════════════════════════════════════ */
-/* Freeze GIF on load by replacing src with still frame trick:
-   We clone the src and only "restart" on click */
-function freezeGif () {
-  // Draw first frame to canvas then show canvas, hide img
-  // Simpler: keep img but set src to empty then reassign on knock
-  const originalSrc = doorGif.src;
+/* ════ DOOR SETUP ════════════════════════════════
+   The GIF is always playing underneath.
+   A near-opaque overlay hides it initially.
+   On knock we fade the overlay away.
+   ═════════════════════════════════════════════════ */
+function setupDoorScene () {
+  doorGif.style.display    = 'block';
+  doorGif.style.opacity    = '1';
+  doorGif.style.visibility = 'visible';
 
-  // Create a canvas snapshot of first frame
-  const canvas  = document.createElement('canvas');
-  const ctx     = canvas.getContext('2d');
-  canvas.className = 'door-gif';
-  canvas.id = 'door-canvas';
-
-  const tmp = new Image();
-  tmp.crossOrigin = 'anonymous';
-  tmp.onload = () => {
-    canvas.width  = tmp.naturalWidth  || 480;
-    canvas.height = tmp.naturalHeight || 854;
-    ctx.drawImage(tmp, 0, 0);
-    doorGif.parentNode.insertBefore(canvas, doorGif);
-    doorGif.style.display = 'none';
-    canvas.style.cssText = doorGif.style.cssText;
-    canvas.style.display = 'block';
-  };
-  tmp.onerror = () => {
-    // fallback: just show gif normally paused-looking
-  };
-  tmp.src = originalSrc + '?' + Date.now(); // force fresh load for canvas
-
-  return { originalSrc };
+  /* Heavy dark overlay masks the animation */
+  doorOverlay.style.background  = 'rgba(10,8,4,0.91)';
+  doorOverlay.style.transition  = 'opacity 2.2s ease';
 }
 
-function playDoor (originalSrc) {
+/* ════ KNOCK → PLAY ══════════════════════════════ */
+function playDoor () {
   if (doorPlayed) return;
   doorPlayed = true;
 
-  // Remove canvas, show animated gif
-  const canvas = document.getElementById('door-canvas');
-  if (canvas) canvas.remove();
+  /* Restart GIF from frame 1 */
+  const src    = doorGif.src;
+  doorGif.src  = '';
+  setTimeout(() => { doorGif.src = src; }, 40);
 
-  doorGif.style.display = 'block';
-  // Force restart GIF by reloading src
-  doorGif.src = '';
-  setTimeout(() => { doorGif.src = originalSrc; }, 50);
+  /* Fade overlay away to reveal GIF */
+  doorOverlay.style.opacity = '0.06';
 
-  // Glow effects
+  /* Glow ring */
   doorGlowRing.classList.add('active');
-  doorOverlay.style.opacity = '0.05';
 
-  // Music 1
+  /* Music */
   tryPlayAudio(music1);
 
-  // Knock animation on button
-  knockBtn.style.animation = 'none';
-  knockBtn.style.opacity   = '0.5';
+  /* Disable button */
+  knockBtn.style.animation     = 'none';
+  knockBtn.style.opacity       = '0.45';
   knockBtn.style.pointerEvents = 'none';
 
-  // After 8s → details page
+  /* Go to details after 8 s */
   setTimeout(() => {
     transitionToPage(pageDoor, pageDetails, () => {
       fadeOutMusic(music1);
@@ -207,122 +147,74 @@ function playDoor (originalSrc) {
   }, 8000);
 }
 
-/* ════════════════════════════════════════════════
-   AUDIO HELPERS
-   ════════════════════════════════════════════════ */
+/* ════ AUDIO ═════════════════════════════════════ */
 function tryPlayAudio (el) {
-  if (!el.src && !el.querySelector('source')?.src) return; // no file attached
+  const src = el.querySelector('source') ? el.querySelector('source').src : el.src;
+  if (!src || src === window.location.href) return;
   el.volume = 0;
   el.play().catch(() => {});
   fadeInMusic(el);
 }
-
-function fadeInMusic (el, targetVol = 0.65, ms = 1500) {
-  const step = targetVol / (ms / 50);
-  const id = setInterval(() => {
-    el.volume = Math.min(el.volume + step, targetVol);
-    if (el.volume >= targetVol) clearInterval(id);
+function fadeInMusic (el, vol = 0.65, ms = 1500) {
+  const step = vol / (ms / 50);
+  const id   = setInterval(() => {
+    el.volume = Math.min(el.volume + step, vol);
+    if (el.volume >= vol) clearInterval(id);
   }, 50);
 }
-
 function fadeOutMusic (el, ms = 1800) {
   const step = el.volume / (ms / 50);
-  const id = setInterval(() => {
+  const id   = setInterval(() => {
     el.volume = Math.max(el.volume - step, 0);
     if (el.volume <= 0) { el.pause(); clearInterval(id); }
   }, 50);
 }
 
-/* ════════════════════════════════════════════════
-   DETAILS PAGE ANIMATIONS
-   ════════════════════════════════════════════════ */
+/* ════ DETAILS ANIMATIONS ════════════════════════ */
 function animateDetailCards () {
-  const cards = pageDetails.querySelectorAll('.detail-card');
-  cards.forEach((c, i) => {
-    c.style.animationDelay = (0.15 * i + 0.2) + 's';
+  pageDetails.querySelectorAll('.detail-card').forEach((c, i) => {
+    c.style.animationDelay    = (0.15 * i + 0.2) + 's';
     c.style.animationFillMode = 'both';
   });
 }
 
-/* ════════════════════════════════════════════════
-   LANGUAGE TOGGLE
-   ════════════════════════════════════════════════ */
+/* ════ LANGUAGE ══════════════════════════════════ */
 function toggleLanguage () {
   currentLang = currentLang === 'en' ? 'ar' : 'en';
-  const html = document.documentElement;
+  const html  = document.documentElement;
   html.setAttribute('lang', currentLang);
   html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-
-  // Update input placeholders
-  document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
-    el.placeholder = currentLang === 'ar'
-      ? el.dataset.arPlaceholder
-      : el.dataset.arPlaceholder.replace(/[\u0600-\u06FF\s]+/, '') || 'Your name...';
-  });
-
-  // Friendly placeholder fallbacks
-  const nameInput = document.getElementById('rsvp-name');
-  const msgInput  = document.getElementById('rsvp-msg');
-  if (nameInput) nameInput.placeholder = currentLang === 'ar' ? 'اسمك...' : 'Your name...';
-  if (msgInput)  msgInput.placeholder  = currentLang === 'ar' ? 'أمنياتك الطيبة...' : 'Your warm wishes...';
+  const nameEl = document.getElementById('rsvp-name');
+  const msgEl  = document.getElementById('rsvp-msg');
+  if (nameEl) nameEl.placeholder = currentLang === 'ar' ? 'اسمك...'           : 'Your name...';
+  if (msgEl)  msgEl.placeholder  = currentLang === 'ar' ? 'أمنياتك الطيبة...' : 'Your warm wishes...';
 }
 
-/* ════════════════════════════════════════════════
-   RSVP FORM
-   ════════════════════════════════════════════════ */
+/* ════ RSVP ══════════════════════════════════════ */
 function handleRSVP (e) {
   e.preventDefault();
   const name   = document.getElementById('rsvp-name').value.trim();
   const attend = document.querySelector('input[name="attend"]:checked');
-  const msg    = document.getElementById('rsvp-msg').value.trim();
-
   if (!name || !attend) return;
-
-  // Log (in a real app, send to server)
-  console.log('RSVP:', { name, attend: attend.value, msg });
-
-  // Show success
   rsvpForm.classList.add('hidden');
   rsvpSuccess.classList.remove('hidden');
 }
 
-/* ════════════════════════════════════════════════
-   EVENT LISTENERS
-   ════════════════════════════════════════════════ */
-let gifOriginalSrc;
-
-knockBtn.addEventListener('click', () => {
-  playDoor(gifOriginalSrc);
-});
-
+/* ════ EVENTS ════════════════════════════════════ */
+knockBtn.addEventListener('click', playDoor);
 langBtnDoor.addEventListener('click', toggleLanguage);
 langBtnDet.addEventListener('click', toggleLanguage);
-
 rsvpForm.addEventListener('submit', handleRSVP);
 
-/* ════════════════════════════════════════════════
-   INIT
-   ════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', async () => {
-  // Show loading page
-  pageLoading.classList.add('active');
-
-  // Store gif src before freeze
-  gifOriginalSrc = doorGif.src;
-
-  // Freeze gif until knock
-  freezeGif();
-
-  // Run loading screen
-  await runLoadingScreen();
-});
-
-/* Unlock audio on any user interaction (iOS / mobile) */
 document.addEventListener('touchstart', () => {
   [music1, music2].forEach(m => {
-    if (m.paused) {
-      m.volume = 0;
-      m.play().then(() => m.pause()).catch(() => {});
-    }
+    m.volume = 0; m.play().then(() => m.pause()).catch(() => {});
   });
 }, { once: true });
+
+/* ════ INIT ══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', async () => {
+  pageLoading.classList.add('active');
+  setupDoorScene();
+  await runLoadingScreen();
+});
