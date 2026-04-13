@@ -12,9 +12,20 @@ let doorPlayed   = false;
 
 /* ── GIF SOURCE ─────────────────────────────────
    Stored here, NOT set on <img> until knock click.
-   The GIF cannot play if src is empty.
    ─────────────────────────────────────────────── */
 const GIF_SRC = 'image1.gif';
+
+/* ── ALL ASSETS TO PRELOAD ──────────────────────
+   Add or remove filenames here as needed.
+   The loading bar will reflect true per-asset
+   progress so guests never see broken images.
+   ─────────────────────────────────────────────── */
+const ASSETS_TO_PRELOAD = [
+  'demo3.png',                                               // Page 2 – door static background
+  'image1.gif',                                              // Page 2 – animated door GIF
+  'image2.png',                                              // Page 3 – details background
+  'Gemini_Generated_Image_aai6peaai6peaai6-removebg-preview.png', // Crest (pages 1 & 3)
+];
 
 /* ── DOM REFS ── */
 const pageLoading  = document.getElementById('page-loading');
@@ -58,41 +69,74 @@ function spawnPetals () {
 }
 
 /* ════ LOADING BAR ═══════════════════════════════ */
-function animateBar (target, duration) {
-  const start = performance.now();
-  const from  = loadProgress;
+function easeInOut (t) { return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
+
+function setBar (target) {
+  /* Smoothly animate the loading bar to a target percentage */
+  const from     = loadProgress;
+  const start    = performance.now();
+  const duration = 400;
   function step (now) {
-    const t = Math.min((now - start) / duration, 1);
+    const t    = Math.min((now - start) / duration, 1);
     loadProgress = from + (target - from) * easeInOut(t);
     loadingBar.style.width = loadProgress + '%';
     if (t < 1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
-function easeInOut (t) { return t < .5 ? 2*t*t : -1+(4-2*t)*t; }
 
-/* ════ PRELOAD GIF IN BACKGROUND ════════════════
-   Preload into memory so it starts instantly on
-   knock, but never set doorGif.src until then.
+/* ════ PRELOAD ALL ASSETS ════════════════════════
+   Returns a Promise that resolves only after every
+   asset in ASSETS_TO_PRELOAD has finished loading
+   (or timed out).  The loading bar advances as each
+   individual asset completes so guests see real
+   progress instead of a frozen bar.
    ════════════════════════════════════════════════ */
-let gifPreloaded = false;
-function preloadGif () {
-  return new Promise(resolve => {
-    animateBar(70, 1800);
-    const img   = new Image();
-    img.onload  = () => { gifPreloaded = true; resolve(); };
-    img.onerror = () => resolve();
-    img.src     = GIF_SRC;          // preload into browser cache only
-    setTimeout(resolve, 4000);      // max 4 s wait
+function preloadAllAssets () {
+  const total   = ASSETS_TO_PRELOAD.length;
+  let   loaded  = 0;
+
+  /* Bar starts at 10 % (initial tick) and goes to 90 %
+     while assets load; the final 10 % fills on completion. */
+  const BAR_START = 10;
+  const BAR_END   = 90;
+
+  function onAssetDone () {
+    loaded++;
+    const pct = BAR_START + ((loaded / total) * (BAR_END - BAR_START));
+    setBar(pct);
+  }
+
+  const promises = ASSETS_TO_PRELOAD.map(src => {
+    return new Promise(resolve => {
+      const img     = new Image();
+      const timeout = setTimeout(() => resolve(), 12000); // 12 s max per asset
+      img.onload = img.onerror = () => {
+        clearTimeout(timeout);
+        onAssetDone();
+        resolve();
+      };
+      img.src = src;
+    });
   });
+
+  return Promise.all(promises);
 }
 
 /* ════ LOADING SCREEN ════════════════════════════ */
 async function runLoadingScreen () {
-  animateBar(30, 800);
+  setBar(10);          // Show immediate progress tick so bar isn't static
   spawnParticles();
-  await Promise.all([preloadGif(), new Promise(r => setTimeout(r, 2200))]);
-  animateBar(100, 500);
+
+  /* Enforce a minimum display time (2 s) so the crest animation
+     has a moment to breathe, then wait for all assets. */
+  await Promise.all([
+    preloadAllAssets(),
+    new Promise(r => setTimeout(r, 2000)),
+  ]);
+
+  /* Fill bar to 100 % then transition */
+  setBar(100);
   await new Promise(r => setTimeout(r, 600));
   transitionToPage(pageLoading, pageDoor);
 }
@@ -112,21 +156,15 @@ function playDoor () {
   if (doorPlayed) return;
   doorPlayed = true;
 
-  /* NOW load the GIF — starts playing immediately from frame 1 */
+  /* GIF is already in browser cache — sets src → plays from frame 1 */
   doorGif.src = GIF_SRC;
-  /* Fade GIF layer over the static door image */
-  document.querySelector(".door-bg-wrap").classList.add("revealed");
+  document.querySelector('.door-bg-wrap').classList.add('revealed');
 
-  /* Fade the dark overlay away */
   doorOverlay.style.opacity = '0';
-
-  /* Gold glow ring */
   doorGlowRing.classList.add('active');
 
-  /* Music */
   tryPlayAudio(music1);
 
-  /* Hide button */
   knockBtn.style.opacity       = '0';
   knockBtn.style.pointerEvents = 'none';
   knockBtn.style.transform     = 'scale(0.8)';
@@ -210,7 +248,6 @@ document.addEventListener('touchstart', () => {
 /* ════ INIT ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   pageLoading.classList.add('active');
-  /* GIF has NO src yet — guaranteed frozen */
-  doorGif.removeAttribute('src');
+  doorGif.removeAttribute('src'); // GIF has NO src yet — guaranteed frozen
   await runLoadingScreen();
 });
